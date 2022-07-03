@@ -24,6 +24,9 @@ unset https_proxy
 ```shell
 git init
 
+git remote add origin https://github.com/niuxingjie/GOPLAY.git
+
+git push -u origin master
 ```
 
 

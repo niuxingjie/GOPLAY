@@ -36,7 +36,7 @@ func main (){
 ```
 
 
-## Go 语言基础语法
+## 基础语法
 
 
 - 使用 + 进行字符串连接
@@ -86,7 +86,7 @@ print	println	real	recover	string	true	uint	uint8	uintptr
 ```
 
 
-## Go 语言数据类型
+## 数据类型
 
 
 - 布尔型
@@ -147,7 +147,7 @@ Go语言的字符串的字节使用UTF-8编码标识Unicode文本。
 ```
 
 
-## Go 语言变量
+## 变量
 
 - 变量声明
 ```go
@@ -265,7 +265,7 @@ val, err = Func1(var1) // 类似python也是可以的
 ```
 
 
-## Go 语言常量
+## 常量
 
 
 - 常量 TODO:什么是常量
@@ -368,7 +368,7 @@ func main (){
 ```
 
 
-## Go 语言运算符
+## 运算符
 
 
 - 算术运算符
@@ -466,7 +466,7 @@ func main(){
 ```
 
 
-## Go 语言条件语句
+## 条件语句
 
 
 - if
@@ -610,7 +610,7 @@ select {
 ```
 
 
-## Go 语言循环语句
+## 循环语句
 
 - [for 循环](w3cschool.cn/go/go-for-loop.html)
 ```go
@@ -723,7 +723,7 @@ func main() {
 ```
 
 
-## Go 语言函数
+## 函数
 
 
 - 基本
@@ -731,9 +731,362 @@ func main() {
 - Go 语言最少有1个 main() 函数。
 - 函数声明告诉了编译器函数的名称，返回类型和参数。
 - Go 语言标准库提供了多种可动用的内置的函数
+    - len
+    - 
+```
+
+- 函数定义与调用
+```go
+package main
+
+import "fmt"
+
+func main(){
+    var num1 int = 100
+    var num2 int = 200
+    var ret int
+
+    ret = max(num1, num2)  // 下面定义的max
+
+    fmt.Printf("最大值为：%d\n", ret)
+}
+
+// 关键字func, 定义参数类型外，也需要定义返回值的类型int
+func max (num1, num2 int) int {
+    var result int
+
+    if num1 >= num2 {
+        result = num1
+    } else {
+         result = num2
+    }
+    return result
+}
+
+```
+
+- 函数返回多个值
+```go
+package main
+
+import "fmt"
+
+func swap(x, y string) (string, string) {
+   return y, x
+}
+
+func main() {
+   a, b := swap("Mahesh", "Kumar")  // := 可以在函数体内方便接收任意类型参数
+   fmt.Println(a, b)
+}
+
+```
+
+- 函数传参：值传递和引用传递
+```go
+// 值传递是指在调用函数时将实际参数复制一份传递到函数中，这样在函数中如果对参数进行修改，将不会影响到实际参数。
+package main
+
+import "fmt"
+
+func main(){
+    var x int = 100
+    var y int = 200
+
+    fmt.Println("swap(x,y)前,main函数中：")
+    fmt.Printf("x=%d\n", x)
+    fmt.Printf("y=%d\n", y)
+
+    swap(x, y)
+
+    fmt.Println("swap(x,y)后,main函数中：")
+    fmt.Printf("x=%d\n", x)
+    fmt.Printf("y=%d\n", y)
+}
+
+func swap(x, y int){
+    var temp int
+
+    temp = x
+    x = y
+    y = temp
+
+    fmt.Println("swap(x,y)函数内部中交换后的x和y：")
+    fmt.Printf("x=%d\n", x)
+    fmt.Printf("y=%d\n", y)
+}
 ```
 
 
+- 函数传参：引用传递
+```go
+// 引用传递是指在调用函数时将实际参数的地址传递到函数中，那么在函数中对参数所进行的修改，将影响到实际参数。
+// 无论python还是go，函数传参，本质上和=赋值操作是一样的，实参是否会改变取决于，实参是可变对象还是不可变对象
+package main
+
+import "fmt"
+
+func main(){
+    var a int = 100
+    var b int = 200
+
+    fmt.Println("swap(&a,&b)前,main函数中：")
+    fmt.Printf("地址：&a=%d  指针指向的变量a的值：a=%d\n", &a, a)
+    fmt.Printf("地址：&b=%d  指针指向的变量b的值：b=%d\n", &b, b)
+
+    swap(&a, &b)  // 关键所在：传的是变量的地址，而不是值
+
+    fmt.Println("swap(&a,&b)后,main函数中：")
+    fmt.Printf("地址：&a=%d  指针指向的变量a的值：a=%d\n", &a, a)
+    fmt.Printf("地址：&b=%d  指针指向的变量b的值：b=%d\n", &b, b)
+
+    fmt.Println("swap(&a,&b)后,main函数中：ab的地址没有变，但是值变了")
+}
+
+// 定义函数的参数是指向int类型的指针
+func swap(x *int, y *int){
+    var temp int
+
+    temp = *x  // *x是拿到指针指向数据的值
+    *x = *y  // *x是拿到指针指向数据的值，然后赋值给y指向的数据
+    *y = temp
+
+    fmt.Println("swap(x,y)函数内部中交换后的x和y：")
+    fmt.Printf("地址：x=%d  指针指向的变量a的值：*x=%d\n", x, *x)
+    fmt.Printf("地址：y=%d  指针指向的变量b的值：*x=%d\n", y, *y)
+}
+
+```
+
+- defer语句
+```go
+// defer语句会将其后面跟随的语句进行延迟处理
+// 在defer所属的函数即将返回时，才会将延迟处理的语句按照defer定义的顺序逆序执行，即先进后出
+
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println("开始")
+	defer fmt.Println(1)
+	defer fmt.Println(2)
+	defer fmt.Println(3)
+	fmt.Println("结束")
+}
+```
+
+
+## 变量作用域
+
+- 局部变量： 它们的作用域只在函数体内
+
+- 全局变量：可以在整个包甚至外部包（被导出后）使用
+```go
+package main
+
+import "fmt"
+
+/* 声明全局变量：函数内部可读写的全局变量 */
+var g int = 100
+
+func main() {
+
+    /* 声明局部变量 */
+    var a, b int
+
+    print_g()  // 100
+
+    /* 初始化参数 */
+    a = 10
+    b = 20
+    g = a + b  // 30
+
+    fmt.Printf("结果： a = %d, b = %d and g = %d\n", a, b, g)
+
+    print_g()  // 30 改变了全局变量的值，与python中不同：全局变量只读，除非global 关键词，才是可读写全局变量
+}
+
+func print_g(){
+    fmt.Printf("结果： g = %d\n", g)
+}
+```
+- 局部变量：函数内声明了与全局变量相同的参数时，覆盖全局变量。
+```go
+// Go 语言程序中全局变量与局部变量名称可以相同，但是函数内的局部变量会被优先考虑
+
+package main
+
+import "fmt"
+
+/* 声明全局变量 */
+var g int = 20
+
+func main() {
+   /* 声明局部变量 */
+   var g int = 10
+
+   fmt.Printf ("结果： g = %d\n",  g)
+}
+```
+
+- 形式参数: 形式参数会作为函数的局部变量来使用
+
+- 先声明后使用的参数默认值：初始化局部和全局变量
+```text
+数据类型	初始化默认值
+int	          0
+float32	      0
+pointer	     nil  // TODO: 预定义的数据类型？
+```
+
+
+## 数组
+
+
+- 基本结构
+```text
+- 数组是具有【相同唯一】类型的一组已编号且长度固定的数据项序列，
+- 元素的类型可以是任意的原始类型例如整型、字符串或者自定义类型。
+```
+
+- 声明数组
+```go
+// 数组名 长度 类型
+var balance [10] float32
+
+// 初始化数组中 {} 中的元素个数不能大于 [] 中的数字,但是可以小于。
+var balance = [5]float32{1000.0, 2.0, 3.4, 7.0, 50.0}
+
+// 如果忽略 [] 中的数字不设置数组大小，Go 语言会根据元素的个数来设置数组的大小
+var balance = []float32{1000.0, 2.0, 3.4, 7.0, 50.0}
+
+```
+
+- code
+```go
+package main
+
+import "fmt"
+
+func main(){
+    var numbers [10]int
+    var i int // for中使用的i需要预定义，否则./main.go:8:9: undefined: i 
+
+    for i=0; i<10; i++{
+        numbers[i] = i + 100
+    }
+
+    for i=0; i<10; i++{
+        fmt.Printf("numbers[%d]=%d\n", i, numbers[i])
+    }
+}
+```
+
+- 多维数据
+
+
+- 向函数传递数组：
+```text
+- 请保证签名中形参与实参类型注解完全一致
+- 
+```
+
+- code1
+```go
+package main
+
+import "fmt"
+
+func main(){
+    var numbers = [5]int{1, 2, 3, 4, 5}  // get_average中形参类型注解需与这里完全一致，包括size的有无
+    var average float32
+
+    average = get_average(numbers, 5)
+    fmt.Printf("numbers的平均值为:%f\n", average)
+}
+
+
+// func get_average(array []int, size int) float32{
+// 不指定数组长度会报错：cannot use numbers (variable of type [5]int) as type []int in argument to get_average
+func get_average(array [5]int, size int) float32{
+    var i int
+    var sum int = 0
+    var average float32
+
+    for i=0; i<size; i++{
+        sum += array[i]
+    }
+
+    average = float32(sum) / float32(size)
+    return average
+
+}
+```
+- code2
+```go
+package main
+
+import "fmt"
+
+func main(){
+    var numbers = []int{1, 2, 3, 4, 5}
+    var average float32
+
+    average = get_average(numbers, 5)
+    fmt.Printf("numbers的平均值为:%f\n", average)
+}
+
+
+// func get_average(array [5]int, size int) float32{
+// 不指定数组长度会报错：cannot use numbers (variable of type []int) as type [5]int in argument to get_average
+func get_average(array []int, size int) float32{
+    var i int
+    var sum int = 0
+    var average float32
+
+    for i=0; i<size; i++{
+        sum += array[i]
+    }
+
+    average = float32(sum) / float32(size)
+    return average
+}
+
+```
+
+- code3: 传参为可变对象时，内部可以变
+```go
+// 无论python还是go，函数传参，本质上和=赋值操作是一样的，实参是否会改变取决于，实参是可变对象还是不可变对象
+package main
+
+import "fmt"
+
+func main(){
+    var numbers = []int{1, 2, 3, 4, 5, 6}
+    var i int
+    var numbers_copy = numbers
+    // 改变 numbers[0]、numbers[1]
+    change_0(numbers)
+
+    // 改变 numbers[2]、numbers[3]
+    numbers_copy[2] = 0
+    numbers_copy[3] = 0
+
+    for i=0; i<6; i++{
+        fmt.Printf("numbers[%d]的平均值为:%d\n", i, numbers[i])
+    }
+    
+}
+
+func change_0(array []int) {
+    array[0] = 0
+    array[1] = 0
+}
+```
+
+
+## 指针
 
 
 

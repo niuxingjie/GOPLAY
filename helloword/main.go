@@ -3,20 +3,23 @@ package main
 import "fmt"
 
 func main(){
-    var i, j int
+    var numbers = []int{1, 2, 3, 4, 5, 6}
+    var i int
+    var numbers_copy = numbers
+    // 改变 numbers[0]、numbers[1]
+    change_0(numbers)
 
-    for i=0; i<10; i++{
-        for j=0; j<i; j++{
-            if i == 6 {
-                goto do_something
-            }
-            fmt.Printf("%d-%d\n", i, j)
-        }
-        fmt.Printf("-----------\n")
+    // 改变 numbers[2]、numbers[3]
+    numbers_copy[2] = 0
+    numbers_copy[3] = 0
+
+    for i=0; i<6; i++{
+        fmt.Printf("numbers[%d]的平均值为:%d\n", i, numbers[i])
     }
+    
+}
 
-    return
-
-do_something:
-    fmt.Printf("i只能到%d的\n", i)
+func change_0(array []int) {
+    array[0] = 0
+    array[1] = 0
 }
