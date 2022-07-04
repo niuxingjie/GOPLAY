@@ -1088,6 +1088,193 @@ func change_0(array []int) {
 
 ## 指针
 
+- 什么是指针
+```text
+
+- 取内存地址的符号是 &
+
+- 一个指针变量，存储的是一个内存地址，定义时，需要定义存储的内存地址里存储的数据类型
+- 一个指针变量，可以用*ptr 直接获取，内存地址里的值
+- 非常方便的操作，内存地址和内存地址里存储的值
+```
+
+
+- 空指针
+```text
+- 当一个指针被定义后没有分配到任何变量时，它的值为 nil。
+- nil在概念上和其它语言的null、None、nil、NULL一样，都指代零值或空值 TODO: nil == nil ?
+
+```
+
+- [指针数组](https://www.w3cschool.cn/go/go-array-of-pointers.html)
+```go
+package main
+
+import "fmt"
+
+const MAX int = 3
+
+func main(){
+    var numbers = [MAX]int{1, 2, 3}
+    var ptr [MAX]*int
+    var i int
+
+    for i=0; i<MAX; i++{
+        ptr[i] = &numbers[i]
+    }
+
+    for i=0; i<MAX; i++{
+        fmt.Printf("第%d个数的值为%d\n", i, *ptr[i])
+    }
+}
+```
+
+- [指向指针的指针](https://www.w3cschool.cn/go/go-pointer-to-pointer.html)
+```go
+// 指向指针的指针变量值需要使用两个 * 号,定义和取值
+
+package main
+
+import "fmt"
+
+func main(){
+    var a int
+    var ptr *int
+    var pptr **int
+
+    a = 3000
+    ptr = &a
+    pptr = &ptr
+
+    /* 获取 pptr 的值 */
+    fmt.Printf("变量 a = %d   &a=%d\n", a, &a)
+    fmt.Printf("指针变量 *ptr = %d   ptr=%d   &ptr=%d\n", *ptr, ptr, &ptr)
+    fmt.Printf("指向指针的指针变量 **pptr = %d   pptr=%d\n", **pptr, pptr)
+}
+
+```
+
+- [指针作为函数参数](https://www.w3cschool.cn/go/go-passing-pointers-to-functions.html)
+```go
+
+
+```
+
+
+## 结构体
+
+- 基本信息
+```text
+- 结构体是由一系列具有相同类型或不同类型的数据构成的数据集合
+
+```
+
+- 定义结构体
+```text
+- type 是定义结构体的关键字
+- struct 是结构体的数据类型标识符
+
+- 定义后的结构 --> 新的数据类型 --> 用于定义变量
+```
+
+- 结构体作为函数参数
+```go
+// 点号可以用于访问结构体成员
+package main
+
+import "fmt"
+
+
+type Book struct {
+    title string  // 结构体的成员定义：名字 类型
+    author string
+    subject string
+    book_id int
+}
+
+func main(){
+    var book1, book2 Book
+
+    book1.title = "go book"
+    book1.author = "w3cschool"
+    book1.subject = "master go"
+    book1.book_id = 1
+
+    book2.title = "Python book"
+    book2.author = "w3cschool"
+    book2.subject = "master python"
+    book2.book_id = 2
+
+    /* 打印 Book1 信息 */
+    fmt.Printf( "Book 1 title : %s\n", book1.title)
+    fmt.Printf( "Book 1 author : %s\n", book1.author)
+    fmt.Printf( "Book 1 subject : %s\n", book1.subject)
+    fmt.Printf( "Book 1 book_id : %d\n", book1.book_id)
+
+    fmt.Println()
+    
+    /* 打印 Book2 信息 */
+    print_book(book2)
+}
+
+
+func print_book(book *Book){
+    fmt.Printf( "Book  title : %s\n", book.title)    // 奇怪，这里不该是*book拿到结构体吗？
+    fmt.Printf( "Book  author : %s\n", book.author)
+    fmt.Printf( "Book  subject : %s\n", book.subject)
+    fmt.Printf( "Book  book_id : %d\n", book.book_id)
+}
+```
+
+
+- 结构体指针: 指向结构体的指针
+```go
+package main
+
+import "fmt"
+
+
+type Book struct {
+    title string  // 结构体的成员定义：名字 类型
+    author string
+    subject string
+    book_id int
+}
+
+func main(){
+    var book1, book2 Book  
+
+    book1.title = "go book"   // TODO：使用结构体定义和赋值，就实现了类-->对象
+    book1.author = "w3cschool"
+    book1.subject = "master go"
+    book1.book_id = 1
+
+    book2.title = "Python book"
+    book2.author = "w3cschool"
+    book2.subject = "master python"
+    book2.book_id = 2
+
+    /* 打印 Book1 信息 */
+    fmt.Printf( "Book 1 title : %s\n", book1.title)
+    fmt.Printf( "Book 1 author : %s\n", book1.author)
+    fmt.Printf( "Book 1 subject : %s\n", book1.subject)
+    fmt.Printf( "Book 1 book_id : %d\n", book1.book_id)
+
+    fmt.Println()
+    
+    /* 打印 Book2 信息 */
+    print_book(&book2)
+}
+
+
+func print_book(book *Book){
+    fmt.Printf( "Book  title : %s\n", *book.title)
+    fmt.Printf( "Book  author : %s\n", *book.author)
+    fmt.Printf( "Book  subject : %s\n", *book.subject)
+    fmt.Printf( "Book  book_id : %d\n", *book.book_id)
+}
+
+```
 
 
 
