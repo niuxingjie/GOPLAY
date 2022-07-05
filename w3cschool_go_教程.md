@@ -948,6 +948,7 @@ pointer	     nil  // TODO: 预定义的数据类型？
 ```text
 - 数组是具有【相同唯一】类型的一组已编号且长度固定的数据项序列，
 - 元素的类型可以是任意的原始类型例如整型、字符串或者自定义类型。
+- Go 数组的长度不可改变
 ```
 
 - 声明数组
@@ -1268,13 +1269,160 @@ func main(){
 
 
 func print_book(book *Book){
-    fmt.Printf( "Book  title : %s\n", *book.title)
+    fmt.Printf( "Book  title : %s\n", *book.title)  // 奇怪，TODO：这里不该是*book拿到结构体吗？
     fmt.Printf( "Book  author : %s\n", *book.author)
     fmt.Printf( "Book  subject : %s\n", *book.subject)
     fmt.Printf( "Book  book_id : %d\n", *book.book_id)
 }
 
 ```
+
+## 切片(Slice)
+
+
+- 基本信息
+```text
+- Go 数组的长度不可改变
+- 切片(Slice):动态数组,长度可变
+```
+
+- 定义切片
+```go
+// TODO:不定义长度额数组就是切片？
+var s [] int  
+s :=[] int {1,2,3} 
+
+// make([]type, length, capacity) 创建切片：capacity参数可选，为切片最大容量，length为初始长度
+```
+
+- len()求长度，cap()求最大容量
+```go
+package main
+
+import "fmt"
+
+func main(){
+    // var numbers = []int{1, 2, 3}
+    numbers := make([]int, 3, 5)
+    
+    printSlice(numbers)
+}
+
+func printSlice(nums []int){
+    var i int
+    fmt.Printf("len=%d cap=%d nums=%v\n", len(nums), cap(nums), nums)
+
+    for i=0; i<len(nums); i++{
+        fmt.Printf("第%d个元素是：%d\n", i, nums[i])
+    }
+}
+```
+
+- 空(nil)切片：定义但是未初始化
+```go
+// 一个切片在未初始化之前默认为 nil，长度为 0
+package main
+
+import "fmt"
+
+func main(){
+    var numbers[]int
+    
+    printSlice(numbers)
+}
+
+func printSlice(nums []int){
+    if nums == nil {
+        fmt.Println("空切片")
+        fmt.Printf("len=%d cap=%d nums=%v\n", len(nums), cap(nums), nums)  // len=0 cap=0 nums=[]
+    } else {
+        fmt.Printf("len=%d cap=%d nums=%v\n", len(nums), cap(nums), nums)
+    }
+}
+
+```
+
+- 切片截取: 
+```go
+// slick[:] 类似python的切片
+```
+
+- append() 和 copy() 函数
+```go
+package main
+
+import "fmt"
+
+func main(){
+    var numbers []int
+    printSlice(numbers)
+
+    // 空切片添加一个0
+    // append(numbers, 0)   // TODO：为啥会报错？：append(numbers, 0) (value of type []int) is not used
+    numbers = append(numbers, 0)
+    printSlice(numbers)
+
+    // 空切片添加多个
+    numbers = append(numbers, 1, 2, 3, 4, 5)
+    printSlice(numbers)
+
+    var double = make([]int, len(numbers), cap(numbers) * 2)
+    fmt.Printf("len=%d cap=%d double=%v\n", len(double), cap(double), double)
+
+    copy(double, numbers)  // TODO: 没有重新赋值,为啥不报错？
+    fmt.Printf("len=%d cap=%d double=%v\n", len(double), cap(double), double)  // len=6 cap=12 double=[0 1 2 3 4 5]
+
+    copy(double, numbers)  // TODO: 为啥没有再增加6个值？并不类似python：list.extend()
+    fmt.Printf("len=%d cap=%d double=%v\n", len(double), cap(double), double)  // len=6 cap=12 double=[0 1 2 3 4 5]
+}
+
+func printSlice(nums []int){
+    if nums == nil {
+        fmt.Println("空切片")
+    }
+    fmt.Printf("len=%d cap=%d nums=%v\n", len(nums), cap(nums), nums)
+}
+```
+
+
+## 范围(Range)
+
+
+- 基本信息
+```text
+- range 是关键字
+- 用于for循环中迭代数组(array)、切片(slice)、通道(channel)或集合(map)的元素
+- range：
+    - 后面跟：数组(array)、切片(slice)、通道(channel)或集合(map) 
+    - 返回：两个值
+```
+
+- code
+```go
+package main
+
+import "fmt"
+
+func main(){
+    var numbers = [5]int{1, 2, 3, 4, 5}
+    var sum int
+
+    for _, num := range numbers {
+        sum += num
+    }
+    fmt.Printf("len=%d cap=%d sum=%v\n", len(numbers), cap(numbers), sum)
+
+    for i, num := range numbers {
+        fmt.Printf("第%d个元素：%d", i, num)
+    }
+    
+}
+
+```
+
+## Map(集合)
+
+
 
 
 
