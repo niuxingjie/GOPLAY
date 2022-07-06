@@ -1423,11 +1423,92 @@ func main(){
 ## Map(集合)
 
 
+- 基本信息
+```text
+- 无序的键值对的集合
+- 依靠key取值
 
 
+```
 
+- 定义 map
+```go
+// 如果不初始化 map，那么就会创建一个 nil map
+// 可以使用内建函数 make 也可以使用 map 关键字来定义 Map:
 
+/* 声明变量，默认 map 是 nil */
+var map_variable map[key_data_type]value_data_type
 
+/* 使用 make 函数 */
+map_variable = make(map[key_data_type]value_data_type)
 
+```
+- cdoe
+```go
+package main
 
+import "fmt"
 
+func main() {
+    var countryCapitalMap map[string]string
+    
+    // nil map 不能用来存放键值对
+    if countryCapitalMap == nil {
+        fmt.Println("a nil map\n")
+    }
+    // countryCapitalMap["China"] = "Beijing"  // panic: assignment to entry in nil map
+
+    // 初始化map
+    countryCapitalMap = make(map[string]string)
+
+    countryCapitalMap["France"] = "Paris"
+    countryCapitalMap["Italy"] = "Rome"
+    countryCapitalMap["Japan"] = "Tokyo"
+    countryCapitalMap["India"] = "New Delhi"
+
+    /* 使用 key 输出 map 值 */
+    for country := range countryCapitalMap {
+        fmt.Printf("key is %s, value is %s.\n", country, countryCapitalMap[country])
+    }
+
+    // capital, ok = countryCapitalMap["China"]  // undefined: capital
+    /* 查看元素在集合中是否存在 */
+    capital, ok := countryCapitalMap["China"]  // :=方便使用未定义变量接收返回值
+    /* 如果 ok 是 true, 则存在，否则不存在 */
+    if (ok) {
+        fmt.Printf("key is China, value is %s.\n", capital)
+    } else {
+        fmt.Println("Capital of China is not present") 
+    }
+}
+```
+
+- delete() 函数
+```go
+package main
+
+import "fmt"
+
+func main() {
+    // 变量名 := 类型 初始值
+    countryCapitalMap := map[string]string {"France":"Paris", "Italy":"Rome","Japan":"Tokyo", "India":"New Delhi"}
+    
+    fmt.Println("打印原始map")
+    printMap(countryCapitalMap)
+
+    // 使用内置函数delete通过key删除
+    // delete(countryCapitalMap, 'France')  // more than one character in rune literal  TODO: 单引号和双引号含义不一样？
+    delete(countryCapitalMap, "France")
+
+    fmt.Println("打印新map")
+    printMap(countryCapitalMap)
+}
+
+func printMap(country_map map[string]string){
+    for country := range country_map {
+        fmt.Printf("key is %s, value is %s.\n", country, country_map[country])
+    }
+}
+```
+
+## 递归函数
