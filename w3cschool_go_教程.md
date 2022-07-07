@@ -1512,3 +1512,160 @@ func printMap(country_map map[string]string){
 ```
 
 ## 递归函数
+
+
+- 阶乘
+```go
+package main 
+
+import "fmt"
+
+func main(){
+    var total int
+    var num int = 5
+    
+    total = jie_cheng(num)
+
+    fmt.Printf("%d 的阶乘是 %d\n", num, total)
+}
+
+
+// func jie_cheng(num int) {   // 函数必须指定返回值类型，否则报错：jie_cheng(num) (no value) used as value
+func jie_cheng(num int) int {
+    if num != 1 {
+        fmt.Printf("%d * ", num)
+        return num * jie_cheng(num - 1)
+    } else {
+        fmt.Printf("1\n")
+        return 1
+    }
+}
+
+```
+
+- 斐波那契数列
+```go
+
+
+```
+
+
+## 类型转换
+
+- 基本信息
+```text
+- 将一种数据类型的变量转换为另外一种类型的变量
+```
+
+- go不支持隐式转换类型
+```go
+package main
+
+import "fmt"
+
+// 函数没有定义返回值类型，即使有return 也不会返回
+func main(){
+    var sum int = 32
+    var num int = 5
+    var mean float32
+
+    // mean = sum / num  // cannot use sum / num (value of type int) as type float32 in assignment
+    mean = float32(sum / num)
+    
+    fmt.Printf("%d / %d = %f \n", sum, num, mean)
+}
+```
+
+
+## 接口
+
+- 基本信息
+```text
+- interface 数据类型，内置标识符 TODO：使用场景是啥？
+- 所有的具有共性的方法定义在一起，任何其他类型只要实现了这些方法就是实现了这个接口。
+
+- 用例： TODO: 用interface和struct实现了python中类似的class类？
+    /* 定义接口 */
+    type interface_name interface {
+    method_name1() [return_type]
+    method_name2() [return_type]
+    method_name3() [return_type]
+    ...
+    method_namen [return_type]
+    }
+
+    /* 定义结构体 */
+    type struct_name struct {
+    /* variables */
+    }
+
+    /* 实现接口方法 */
+    func (struct_name_variable struct_name) method_name1() [return_type] {
+    /* 方法实现 */
+    }
+    ...
+    func (struct_name_variable struct_name) method_namen() [return_type] {
+    /* 方法实现*/
+    }
+
+```
+
+
+- code
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// var type func 三个关键字貌似都与定义有关
+type  Phone interface {
+    call()  // TODO：这里用了小括号？
+}
+
+// NokiaPhone 结构体一
+type NokiaPhone struct {
+}
+
+// TODO：func不仅仅是定义函数的？还可以这样用？
+func (nokiaPhone NokiaPhone) call() {
+    fmt.Println("I am Nokia, I can call you!")
+}
+
+// IPhone 结构体二
+type IPhone struct {
+}
+
+
+func (iPhone IPhone) call() {
+    fmt.Println("I am IPhone, I can call you!")
+}
+
+func main(){
+
+    // TODO：var 使用自定义的数据类型？
+    var phone Phone
+
+    phone = new(NokiaPhone)  // TODO：new关键字啥用？
+    phone.call()
+
+    phone = new(IPhone)
+    phone.call()
+
+}
+
+
+```
+
+
+## 错误处理
+
+
+
+## 反射(Reflect)
+
+
+
+## 并发
+

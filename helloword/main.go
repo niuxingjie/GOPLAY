@@ -1,24 +1,38 @@
 package main
 
-import "fmt"
+import (
+    "fmt"
+)
 
-func main() {
-    // 变量名 := 类型 初始值
-    countryCapitalMap := map[string]string {"France":"Paris", "Italy":"Rome","Japan":"Tokyo", "India":"New Delhi"}
-    
-    fmt.Println("打印原始map")
-    printMap(countryCapitalMap)
-
-    // 使用内置函数delete通过key删除
-    // delete(countryCapitalMap, 'France')  // more than one character in rune literal  TODO: 单引号和双引号含义不一样？
-    delete(countryCapitalMap, "France")
-
-    fmt.Println("打印新map")
-    printMap(countryCapitalMap)
+// var type func 三个关键字貌似都与定义有关
+type  Phone interface {
+    call()  // TODO：这里用了小括号？
 }
 
-func printMap(country_map map[string]string){
-    for country := range country_map {
-        fmt.Printf("key is %s, value is %s.\n", country, country_map[country])
-    }
+type NokiaPhone struct {
+}
+
+// TODO：func不仅仅是定义函数的？还可以这样用？
+func (nokiaPhone NokiaPhone) call() {
+    fmt.Println("I am Nokia, I can call you!")
+}
+
+type IPhone struct {
+}
+
+func (iPhone IPhone) call() {
+    fmt.Println("I am IPhone, I can call you!")
+}
+
+func main(){
+
+    // TODO：var 使用自定义的数据类型？
+    var phone Phone
+
+    phone = new(NokiaPhone)  // TODO：new关键字啥用？
+    phone.call()
+
+    phone = new(IPhone)
+    phone.call()
+
 }
