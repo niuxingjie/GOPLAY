@@ -2,37 +2,35 @@ package main
 
 import (
     "fmt"
+    "reflect"
 )
 
-// var type func 三个关键字貌似都与定义有关
-type  Phone interface {
-    call()  // TODO：这里用了小括号？
+// TODO: interface{}这里为什么有大括号？
+func reflectsetvalue1(x interface{}) {
+    value := reflect.ValueOf(x)
+    if value.Kind() == reflect.String {
+        value.SetString("欢迎来到W3Cschool")
+    }
 }
 
-type NokiaPhone struct {
+func reflectsetvalue2(x interface{}) {
+    value := reflect.ValueOf(x)
+
+    // 反射中使用Elem()方法获取指针所指向的值
+    if value.Elem().Kind() == reflect.String {
+        value.Elem().SetString("欢迎来到W3Cschool")
+    }
 }
 
-// TODO：func不仅仅是定义函数的？还可以这样用？
-func (nokiaPhone NokiaPhone) call() {
-    fmt.Println("I am Nokia, I can call you!")
-}
-
-type IPhone struct {
-}
-
-func (iPhone IPhone) call() {
-    fmt.Println("I am IPhone, I can call you!")
-}
 
 func main(){
+    address := "www.w3cshool.cn"
+    // reflectsetvalue1(address)  // panic: reflect: reflect.Value.SetString using unaddressable value
+    fmt.Println(address)
 
-    // TODO：var 使用自定义的数据类型？
-    var phone Phone
+    reflectsetvalue1(&address)
+    fmt.Println(address)  // www.w3cshool.cn
 
-    phone = new(NokiaPhone)  // TODO：new关键字啥用？
-    phone.call()
-
-    phone = new(IPhone)
-    phone.call()
-
+    reflectsetvalue2(&address)
+    fmt.Println(address)  // 欢迎来到W3Cschool
 }

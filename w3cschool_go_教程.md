@@ -1577,7 +1577,7 @@ func main(){
 ```
 
 
-## 接口
+## 接口【难点】
 
 - 基本信息
 ```text
@@ -1661,11 +1661,155 @@ func main(){
 
 ## 错误处理
 
+- 基本信息
+```text
+- 内置的错误接口 error
 
+    type error interface {
+        Error() string
+    }
+- 
+```
+
+- code 
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// 定义了一个机构体
+type DivideError struct {
+    dividee int
+    divider int
+}
+
+
+// 实现了错误接口 TODO：Error() 是语言内置接口？
+func (de *DivideError) Error() string {
+    strFormat := `
+    Cannot proceed, the divider is zero.
+    dividee: %d
+    divider: 0
+`
+    return fmt.Sprintf(strFormat, de.dividee)  // TODO：de是指针，指针.属性？
+}
+
+
+func Divide(varDividee int, varDivider int) (result int, errorMsg string) {
+    if varDivider == 0 {
+        dData := DivideError{
+            dividee: varDividee,  // syntax error: unexpected newline, expecting comma or }
+            divider: varDivider,
+        }
+        errorMsg = dData.Error()  // TODO:错误会提前返回错误信息？不然errorMsg怎么返回的？
+        return
+    } else {
+        return varDividee / varDivider, ""
+    }
+}
+
+
+func main(){
+
+    // TODO: if后面可以用语句statement，而不是表达式expression？
+    if result, errorMsg := Divide(100, 10); errorMsg == "" {
+        fmt.Println("100/10= ", result)
+    }
+
+    if _, errorMsg := Divide(100, 0); errorMsg != "" {
+        fmt.Println("errorMsg is: ", errorMsg)
+    }
+
+}
+
+```
 
 ## 反射(Reflect)
 
+- 基本概念
+```text
+- 不知道具体类型的情况下，可以用反射来更新变量值，查看变量类型
+```
 
+- TypeOf 和 ValueOf
+```go
+package main
+
+import (
+    "fmt"
+    "reflect"
+)
+
+func main(){
+    var booknum float32 = 6
+    var isbook bool = true
+
+    bookauthor := "w3cschool"
+    bookdetail := make(map[string]string)
+    bookdetail["go教程"]="www.w3cdchool.cn"
+
+    fmt.Println(reflect.TypeOf(booknum), ":", reflect.ValueOf(booknum))
+    fmt.Println(reflect.TypeOf(isbook), ":", reflect.ValueOf(isbook))
+    fmt.Println(reflect.TypeOf(bookauthor), ":", reflect.ValueOf(bookauthor))
+    fmt.Println(reflect.TypeOf(bookdetail), ":", reflect.ValueOf(bookdetail))  // map[string]string : map[go教程:www.w3cdchool.cn]
+    fmt.Println(reflect.TypeOf(nil), ":", reflect.ValueOf(nil))  // <nil> : <invalid reflect.Value>
+}
+```
+
+- 通过反射设置值
+```go
+/* 使用建议:
+1、大量使用反射的代码通常会变得难以理解
+2、反射的性能低下，基于反射的代码会比正常的代码运行速度慢一到两个数量级
+*/
+package main
+
+import (
+    "fmt"
+    "reflect"
+)
+
+// TODO: interface{}这里为什么有大括号？
+func reflectsetvalue1(x interface{}) {
+    value := reflect.ValueOf(x)
+    if value.Kind() == reflect.String {
+        value.SetString("欢迎来到W3Cschool")
+    }
+}
+
+func reflectsetvalue2(x interface{}) {
+    value := reflect.ValueOf(x)
+
+    // 反射中使用Elem()方法获取指针所指向的值
+    if value.Elem().Kind() == reflect.String {
+        value.Elem().SetString("欢迎来到W3Cschool")
+    }
+}
+
+
+func main(){
+    address := "www.w3cshool.cn"
+    // reflectsetvalue1(address)  // panic: reflect: reflect.Value.SetString using unaddressable value
+    fmt.Println(address)
+
+    reflectsetvalue1(&address)
+    fmt.Println(address)  // www.w3cshool.cn
+
+    reflectsetvalue2(&address)
+    fmt.Println(address)  // 欢迎来到W3Cschool
+}
+```
 
 ## 并发
+
+
+
+
+
+
+
+
+
 
