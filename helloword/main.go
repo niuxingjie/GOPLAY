@@ -2,35 +2,49 @@ package main
 
 import (
     "fmt"
-    "reflect"
+    "sync"
+    "time"
 )
 
-// TODO: interface{}这里为什么有大括号？
-func reflectsetvalue1(x interface{}) {
-    value := reflect.ValueOf(x)
-    if value.Kind() == reflect.String {
-        value.SetString("欢迎来到W3Cschool")
-    }
+var (
+    x = 0
+    wg sync.WaitGroup
+    rwlock sync.RWMutex
+)
+
+func read() {
+    defer wg.Done()
+
+    rwlock.RLock()
+    fmt.Println("Read x= ", x)
+    time.Sleep(time.Millisecond)
+
+    rwlock.RUnlock()
 }
 
-func reflectsetvalue2(x interface{}) {
-    value := reflect.ValueOf(x)
-
-    // 反射中使用Elem()方法获取指针所指向的值
-    if value.Elem().Kind() == reflect.String {
-        value.Elem().SetString("欢迎来到W3Cschool")
-    }
+func write() {
+    defer wg.Done()
+    rwlock.Lock()
+    fmt.Println("Write x=", x)
+    x += 1
+    time.Sleep(time.Millisecond)
+    fmt.Println("Write x+1=", x)
+    rwlock.Unlock()
 }
 
 
-func main(){
-    address := "www.w3cshool.cn"
-    // reflectsetvalue1(address)  // panic: reflect: reflect.Value.SetString using unaddressable value
-    fmt.Println(address)
-
-    reflectsetvalue1(&address)
-    fmt.Println(address)  // www.w3cshool.cn
-
-    reflectsetvalue2(&address)
-    fmt.Println(address)  // 欢迎来到W3Cschool
+func main() {
+    start := time.Now()
+    for i := 0; i < 10; i++ {
+        go write()
+        wg.Add(1)
+    }
+    time.Sleep(time.Second)
+    for i := 0; i < 20; i++ {
+        go read()
+        wg.Add(1)
+    }
+    wg.Wait()
+    fmt.Println("----------------")
+    fmt.Println(time.Since(start))
 }
