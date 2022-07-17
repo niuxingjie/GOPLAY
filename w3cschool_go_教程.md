@@ -75,10 +75,12 @@ print	println	real	recover	string	true	uint	uint8	uintptr
 
 
 ```
+
 - 分隔符
 ```text
 空格 [] () {}
 ```
+
 - 标点符号
 ```text
 . : ...
