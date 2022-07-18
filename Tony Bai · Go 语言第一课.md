@@ -219,26 +219,83 @@ TODO: go源码是按照什么顺序传递给编译器编译的？
 
 ![Go 包的初始化次序](geek/img/e4ddb702876f4f2a0880e4353a390d0b.webp)
 
-- 错误1：
+- 错误1
 ```text
 main.go:6:2: import "github.com/bigwhite/prog-init-order/pkg1" is a program, not an importable package
 pkg1.go中出现了“package main”的原因。一个main包，就是一个program
+````
 
+- code
+```go
+package main
+
+import (
+	"fmt"
+
+	_ "github.com/bigwhite/prog-init-order/pkg1"
+	_ "github.com/bigwhite/prog-init-order/pkg2"
+)
+
+var (
+	_ = condtInitCheck()
+	v1 = variableInit("v1")
+	v2 = variableInit("v2")
+)
+
+const (
+	c1 = "c1"
+	c2 = "c2"
+)
+
+func condtInitCheck() string {
+	if c1 != "" {
+		// c1不是空值，所以说明已经初始化了 TODO：c1的空值为啥是是空字符串？
+		fmt.Println("main: const c1 has been initialized")
+	} 
+	if c1 != "" {
+		// c1不是空值，所以说明已经初始化了 TODO：c1的空值为啥是是空字符串？
+		fmt.Println("main: const c1 has been initialized")
+	} 
+	return ""
+}
+
+func variableInit(name string) string {
+	fmt.Printf("main: var %s has been initialized \n", name)
+	return name
+}
+
+func init() {
+	fmt.Println("main: 001-first init func invoked")
+}
+
+
+func main() {
+	fmt.Println("main: 002-main func invoked")
+}
+```
+
+- 结果
+```text
 root@DESKTOP-BGUNPQG:# go run main.go 
-	main: const c1 has been initialized
-	main: const c1 has been initialized
+
+	# main中首先是import导入包及包的初始化
+	# 包内部，首先仍是是import导入包及包的初始化
+	# 因此，深度遍历，最先执行的是pkg3
+
+	main: pkg3 const c1 has been initialized  # 包内部，首先是包级别变量初始化
+	main: pkg3 const c1 has been initialized
 	main: var v1 has been initialized 
 	main: var v2 has been initialized 
-	main: pkg3 init func invoked
+	main: pkg3 init func invoked              # 包内部，其次是init函数的的执行。（包内部main不会被执行）
 
-	main: const c1 has been initialized
-	main: const c1 has been initialized
+	main: pkg2 const c1 has been initialized
+	main: pkg2 const c1 has been initialized
 	main: var v1 has been initialized 
 	main: var v2 has been initialized 
 	main: pkg2 init func invoked
 
-	main: const c1 has been initialized
-	main: const c1 has been initialized
+	main: pkg1 const c1 has been initialized
+	main: pkg1 const c1 has been initialized
 	main: var v1 has been initialized 
 	main: var v2 has been initialized 
 	main: pkg1 init func invoked
@@ -247,9 +304,8 @@ root@DESKTOP-BGUNPQG:# go run main.go
 	main: const c1 has been initialized
 	main: var v1 has been initialized 
 	main: var v2 has been initialized 
-
 	main: 001-first init func invoked
-	main: 002-main func invoked
+	main: 002-main func invoked               # main包内部的main才会被执行
 ```
 
 
@@ -260,9 +316,108 @@ root@DESKTOP-BGUNPQG:# go run main.go
 - 为什么需要重置：
 
 - 如何重置：
-
+	- 隐藏知识：包内部首先是变量初始化，其次是init函数执行，因此，init执行的时候，可以修改变量，从而实现重置包级变量值
 
 ```
 
 
+2. 是实现对包级变量的复杂初始化
 
+- 复杂初始化？
+```text
+- 复杂在哪里？
+- 需要大量计算，才能得出变量初始化的值？
+```
+
+- 根据环境变量来决定初始化的值
+```go
+var (
+    http2VerboseLogs    bool // 初始化时默认值为false
+    http2logFrameWrites bool // 初始化时默认值为false
+    http2logFrameReads  bool // 初始化时默认值为false
+    http2inTests        bool // 初始化时默认值为false
+)
+
+func init() {
+    e := os.Getenv("GODEBUG")
+    if strings.Contains(e, "http2debug=1") {
+        http2VerboseLogs = true // 在init中对http2VerboseLogs的值进行重置
+    }
+    if strings.Contains(e, "http2debug=2") {
+        http2VerboseLogs = true // 在init中对http2VerboseLogs的值进行重置
+        http2logFrameWrites = true // 在init中对http2logFrameWrites的值进行重置
+        http2logFrameReads = true // 在init中对http2logFrameReads的值进行重置
+    }
+}
+```
+
+3. 在 init 函数中实现“注册模式”。
+- 注册模式
+```
+- 设计模式？
+
+- 注册是什么意? 
+
+- 疑问：
+	- 下面这个示例程序image支持 png、jpeg、gif 三种格式的图片，而达成这一目标的原因，正是 image/png、image/jpeg 和 image/gif 包都在各自的 init 函数中，将自己“注册”到 image 的支持格式列表中了
+```
+
+- code-main.go
+```go
+
+package main
+
+import (
+    "fmt"
+    "image"
+    _ "image/gif" // 以空导入方式注入gif图片格式驱动
+    _ "image/jpeg" // 以空导入方式注入jpeg图片格式驱动
+    _ "image/png" // 以空导入方式注入png图片格式驱动
+    "os"
+)
+
+func main() {
+    // 支持png, jpeg, gif
+    width, height, err := imageSize(os.Args[1]) // 获取传入的图片文件的宽与高
+    if err != nil {
+        fmt.Println("get image size error:", err)
+        return
+    }
+    fmt.Printf("image size: [%d, %d]\n", width, height)
+}
+
+func imageSize(imageFile string) (int, int, error) {
+    f, _ := os.Open(imageFile) // 打开图文文件
+    defer f.Close()
+
+    img, _, err := image.Decode(f) // 对文件进行解码，得到图片实例
+    if err != nil {
+        return 0, 0, err
+    }
+
+    b := img.Bounds() // 返回图片区域
+    return b.Max.X, b.Max.Y, nil
+}
+```
+
+- code-空导入的依赖包
+```go
+// TODO: 整个项目中，包级变量（如：image是包名，还是包级变量？）是全局变量？全局变量可以在任何位置修改？
+
+
+// $GOROOT/src/image/png/reader.go
+func init() {
+    image.RegisterFormat("png", pngHeader, Decode, DecodeConfig)
+}
+
+// $GOROOT/src/image/jpeg/reader.go
+func init() {
+    image.RegisterFormat("jpeg", "\xff\xd8", Decode, DecodeConfig)
+}
+
+// $GOROOT/src/image/gif/reader.go
+func init() {
+    image.RegisterFormat("gif", "GIF8?a", Decode, DecodeConfig)
+}  
+
+```

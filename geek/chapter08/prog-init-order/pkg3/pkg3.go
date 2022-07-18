@@ -19,11 +19,11 @@ const (
 func condtInitCheck() string {
 	if c1 != "" {
 		// c1不是空值，所以说明已经初始化了 TODO：c1的空值为啥是是空字符串？
-		fmt.Println("main: const c1 has been initialized")
+		fmt.Println("main: pkg3 const c1 has been initialized")
 	} 
 	if c1 != "" {
 		// c1不是空值，所以说明已经初始化了 TODO：c1的空值为啥是是空字符串？
-		fmt.Println("main: const c1 has been initialized")
+		fmt.Println("main: pkg3 const c1 has been initialized")
 	} 
 	return ""
 }
