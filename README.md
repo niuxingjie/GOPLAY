@@ -18,6 +18,23 @@ export https_proxy='socks5://127.0.0.1:1080'
 
 unset http_proxy
 unset https_proxy
+
+
+# 上面的不太好用，下面的方式也很好
+export GOPROXY="https://goproxy.cn,direct" 
+# 如下命令都会使用此代理：
+go mod tidy
+
+go install -v github.com/ramya-rao-a/go-outline@latest
+```
+
+- vscode给go配置跳转代码提示等插件
+```sh
+# ubuntu wsl2
+export GOPROXY="https://goproxy.cn,direct" 
+go install -v github.com/ramya-rao-a/go-outline@latest
+go install -v golang.org/x/tools/cmd/goimports@latest
+go install -v github.com/rogpeppe/godef@latest
 ```
 
 - 配置git仓库

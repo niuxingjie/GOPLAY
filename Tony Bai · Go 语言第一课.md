@@ -1,4 +1,7 @@
 
+## START
+
+
 ## 03｜配好环境：选择一种最适合你的Go安装方法
 
 
@@ -19,6 +22,10 @@ unset GOPROXY
 
 
 export GOPROXY="https://goproxy.cn,direct"
+
+如下命令都会使用此代理：
+go mod tidy
+go install -v github.com/ramya-rao-a/go-outline@latest
 ```
 
 
@@ -217,13 +224,13 @@ TODO: go源码是按照什么顺序传递给编译器编译的？
 
 ### Go 包的初始化次序
 
-![Go 包的初始化次序](geek/img/e4ddb702876f4f2a0880e4353a390d0b.webp)
+- ![Go 包的初始化次序](geek/img/e4ddb702876f4f2a0880e4353a390d0b.webp)
 
 - 错误1
 ```text
 main.go:6:2: import "github.com/bigwhite/prog-init-order/pkg1" is a program, not an importable package
 pkg1.go中出现了“package main”的原因。一个main包，就是一个program
-````
+```
 
 - code
 ```go
@@ -421,3 +428,78 @@ func init() {
 }  
 
 ```
+
+
+## 09｜即学即练：构建一个Web服务就是这么简单
+
+
+### 一个基于 HTTP 协议的 Web 服务
+
+- 初始化项目
+```sh
+
+$ mkdir simple-http-server
+
+$ cd simple-http-server
+
+$ go mod init simple-http-server   # TODO：可以直接创建一个go module？
+$ cat go.mod 
+	module simple-http-server
+
+	go 1.18
+
+$ touch main.go
+
+$ go run main.go
+
+$ curl -I 127.0.0.1:8000
+	HTTP/1.1 200 OK
+	Date: Tue, 19 Jul 2022 13:33:37 GMT
+	Content-Length: 12
+	Content-Type: text/plain; charset=utf-8
+
+$ go build
+
+$ ./simple-http-server
+
+$ curl 127.0.0.1:8000
+	Hello Wordl!
+```
+
+- code
+```go
+package main
+
+import "net/http"
+
+func main()  {
+	http.HandleFunc("/",func(w http.ResponseWriter, r *http.Request){
+		w.Write([]byte("Hello Wordl!"))  
+	})
+	http.ListenAndServe(":8000", nil)
+}
+
+```
+
+- point:字节与字符串转换
+```go
+// [Golang中[]byte与string转换全解析](https://zhuanlan.zhihu.com/p/270626496)
+// []byte 字符串转换为字节，类似python中的"string".encode("utf-8")
+
+// string to []byte
+s1 := "hello"
+b := []byte(s1)
+
+// []byte to string
+s2 := string(b)
+```
+
+
+### 图书管理 API 服务
+
+
+
+
+
+
+## END
