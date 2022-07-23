@@ -35,6 +35,10 @@ export GOPROXY="https://goproxy.cn,direct"
 go install -v github.com/ramya-rao-a/go-outline@latest
 go install -v golang.org/x/tools/cmd/goimports@latest
 go install -v github.com/rogpeppe/godef@latest
+go install -v github.com/stamblerre/gocode@latest
+
+插件特性：
+    - ctrl + s 自动格式化源码中的go代码
 ```
 
 - 配置git仓库
@@ -44,7 +48,6 @@ git init
 git remote add origin https://github.com/niuxingjie/GOPLAY.git
 
 git push -u origin master
-
 ```
 
 - git 配置本地代理

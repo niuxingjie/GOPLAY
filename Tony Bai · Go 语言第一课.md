@@ -497,9 +497,65 @@ s2 := string(b)
 
 ### 图书管理 API 服务
 
+- 项目目录结构
+```sh
+tree ./ -L 3
+./
+├── cmd
+│   └── bookstore        // 放置bookstore main包源码
+│       └── main.go
+├── go.mod
+├── internal             // 存放项目内部包的目录
+│   └── store
+│       └── memstore.go
+├── server               // HTTP服务器模块
+│   ├── middleware
+│   │   └── middleware.go
+│   └── server.go
+└── store                // 图书数据存储模块
+    ├── factory
+    │   └── factory.go
+    └── store.go
+
+8 directories, 7 files
+```
+
+- main包结构
+
+![main包结构](./geek/img/5e8ee50b67a4229210b12afb94f55a19.webp)
+
+- 图书数据存储模块（store)
+
+
+- 知识点：Golang 单引号、双引号和反引号
+```text
+- 单引号(Single quote)，表示byte类型或rune类型，对应 uint8和int32类型，默认是 rune 类型。
+	- byte用来强调数据是raw data，而不是数字；
+	- 而rune用来表示Unicode的code point。
+- 双引号(Double quote)，才是字符串，实际上是字符数组。可以用索引号访问某字节，也可以用len()函数来获取字符串所占的字节长度。
+- 反引号(Back quote)，表示字符串字面量，但不支持任何转义序列。字面量 raw literal string 的意思是，你定义时写的啥样，它就啥样，你有换行，它就换行。你写转义字符，它也就展示转义字符。
+```
+
+- 知识点：面向接口编程
+```text
+
+
+```
+
+- 知识点：工厂模式
+```text
+
+
+
+```
 
 
 
 
 
 ## END
+
+
+
+
+

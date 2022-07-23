@@ -1222,7 +1222,7 @@ func main(){
 
 
 func print_book(book *Book){
-    fmt.Printf( "Book  title : %s\n", book.title)    // 奇怪，这里不该是*book拿到结构体吗？
+    fmt.Printf( "Book  title : %s\n", book.title)    // TODO:奇怪，这里不该是*book拿到结构体吗？
     fmt.Printf( "Book  author : %s\n", book.author)
     fmt.Printf( "Book  subject : %s\n", book.subject)
     fmt.Printf( "Book  book_id : %d\n", book.book_id)
