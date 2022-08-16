@@ -64,7 +64,39 @@ git config --global --unset https.proxy
 ```
 
 
+- git 忽略文件
+```shell
+$ git add .
+    On branch dev
+    Changes to be committed:
+    (use "git reset HEAD <file>..." to unstage)
 
+            modified:   .gitignore
+            new file:   .vscode/configurationCache.log
+            new file:   .vscode/settings.json
+            new file:   .vscode/targets.log
+            modified:   README.md
+            modified:   "Tony Bai \302\267 Go \350\257\255\350\250\200\347\254\254\344\270\200\350\257\276.md"
+            new file:   geek/chapter09/bookstore/Makefile
+            new file:   geek/chapter09/bookstore/bookstore
+
+$ git status
+
+$ vim gitignore
+    .vscode/*
+
+$ git rm -r --cached .vscode
+
+$ git status
+$ git status
+    On branch dev
+    Changes to be committed:
+    (use "git reset HEAD <file>..." to unstage)
+
+            modified:   .gitignore
+            modified:   README.md
+            modified:   "Tony Bai \302\267 Go \350\257\255\350\250\200\347\254\254\344\270\200\350\257\276.md"
+```
 
 
 
