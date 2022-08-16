@@ -1,11 +1,11 @@
 package routers
 
-import (
-	"SecondBeego/controllers"
+// import (
+// 	"SecondBeego/controllers"
 
-	"github.com/astaxie/beego"
-)
+// 	"github.com/astaxie/beego"
+// )
 
-func init() {
-	beego.Router("/", &controllers.MainController{})
-}
+// func init() {
+// 	beego.Router("/", &controllers.MainController{})
+// }
