@@ -174,10 +174,52 @@ missing go.sum entry for module providing package github.com/go-sql-driver/mysql
 
 go mod download github.com/go-sql-driver/mysql
 ```
+- msyql 配置远程登录
+```
+# 开启root用户的远程登录
+
+sudo su root
+mysql
+
+> use mysql;
+
+> select host, User from user;
+
+> grant all privileges on *.* to 'root'@'%';
+
+> flush privileges;
+
+> exit
+
+
+# 创建或修改数据库
+
+> CREATE DATABASE IF NOT EXISTS myblog DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+> ALTER DATABASE myblog DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+
+# mysql允许远程登录
+
+systemctl status mysql
+
+vim /etc/mysql/mysql.conf.d/mysqld.cnf
+    bind-address            = 0.0.0.0
+
+systemctl restart mysql
+```
 
 - myblogweb开发实战
 ```
+cd /mnt/d/ProgramData/GoPlay/qianphone/beego
 
+/root/go/bin/bee new Myblog
+
+cd Myblog
+
+go get Myblog
+
+/root/go/bin/bee run
 
 
 ```
