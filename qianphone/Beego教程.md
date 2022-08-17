@@ -1,4 +1,9 @@
+
+## Beego教程
+
 [beego 官方网址](https://beego.vip/)
+
+注意：视频教程里的go/beego/bee的版本都较低，代码需要适当调整
 
 - go path
 ```sh
@@ -145,9 +150,37 @@ go get SecondBeego
 ```
 
 
-- 
+- MysqlDemo数据库链接
+```sh
+
+cd /mnt/d/ProgramData/GoPlay/qianphone/beego
+
+/root/go/bin/bee new MysqlDemo
+
+cd MysqlDemo/
+
+export GOPROXY="https://goproxy.cn,direct"
+
+go get MysqlDemo  # TODO：貌似这个命令会把本项目相关依赖加入mod中？
+    go: added github.com/shiena/ansicolor v0.0.0-20200904210342-c7312218db18
+
+/root/go/bin/bee run
 
 
+# 直接安装依赖会报错
+go install github.com/go-sql-driver/mysql
+missing go.sum entry for module providing package github.com/go-sql-driver/mysql; to add:
+        go mod download github.com/go-sql-driver/mysql
+
+go mod download github.com/go-sql-driver/mysql
+```
+
+- myblogweb开发实战
+```
+
+
+
+```
 
 
 
