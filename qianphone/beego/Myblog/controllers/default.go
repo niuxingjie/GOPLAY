@@ -21,6 +21,19 @@ func (c *MainController) Get() {
 	c.TplName = "index.tpl"
 }
 
+//homepage
+type HomeController struct {
+	BaseController
+}
+
+func (this *HomeController) Get() {
+	this.Prepare()
+	this.Data["Content"] = "value"
+	fmt.Println("IsLogin:", this.IsLogin, this.Loginuser)
+	this.TplName = "home.html"
+}
+
+// register
 type RegisterController struct {
 	beego.Controller
 }
@@ -57,6 +70,7 @@ func (this *RegisterController) Post() {
 	this.ServeJSON()
 }
 
+// login
 type LoginController struct {
 	beego.Controller
 }
@@ -71,10 +85,21 @@ func (this *LoginController) Post() {
 
 	id := models.QueryUserWithParam(username, utils.MD5(password))
 	if id > 0 {
-		this.Data["json"] = map[string]interface{}{"code": 0, "message": "登录成功！"}
+		this.SetSession("loginuser", username)
+		this.Data["json"] = map[string]interface{}{"code": 1, "message": "登录成功！"}
 		fmt.Println("id:", id)
 	} else {
 		this.Data["json"] = map[string]interface{}{"code": 0, "message": "登录失败！"}
 	}
 	this.ServeJSON()
+}
+
+// exit
+type ExitController struct {
+	BaseController
+}
+
+func (this *ExitController) Get() {
+	this.DelSession("loginuser")
+	this.Redirect("/", 302)
 }
