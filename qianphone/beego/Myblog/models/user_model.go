@@ -29,6 +29,7 @@ func InsertUser(user User) (int64, error) {
 	return utils.ModifyDB(sql, user.Username, user.Password, user.Status, user.Createtime)
 }
 
+// 拼接过滤条件查询用户id
 func QueryUserWightCon(con string) int {
 	sql := fmt.Sprintf("SELECT id FROM users %s;", con)
 	fmt.Println(sql)
@@ -36,4 +37,16 @@ func QueryUserWightCon(con string) int {
 	id := 0
 	row.Scan(&id)
 	return id
+}
+
+// 根据用户名来查询用户
+func QueryUserWithUsername(username string) int {
+	sql := fmt.Sprintf("where username='%s'", username)
+	return QueryUserWightCon(sql)
+}
+
+// 根据用户和密码查询用户
+func QueryUserWithParam(username, password string) int {
+	sql := fmt.Sprintf("where username='%s' and password='%s'", username, password)
+	return QueryUserWightCon(sql)
 }

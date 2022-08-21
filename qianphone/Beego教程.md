@@ -210,7 +210,7 @@ systemctl restart mysql
 ```
 
 - myblogweb开发实战
-```
+```sh
 cd /mnt/d/ProgramData/GoPlay/qianphone/beego
 
 /root/go/bin/bee new Myblog

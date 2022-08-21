@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"crypto/md5"
 	"database/sql"
 	"fmt"
 	"log"
@@ -69,4 +70,9 @@ func ModifyDB(sql string, args ...interface{}) (int64, error) {
 
 func QueryRowDB(sql string) *sql.Row {
 	return db.QueryRow(sql)
+}
+
+func MD5(str string) string {
+	md5str := fmt.Sprintf("%x", md5.Sum([]byte(str)))
+	return md5str
 }
