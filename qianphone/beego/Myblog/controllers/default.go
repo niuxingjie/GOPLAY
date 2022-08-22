@@ -28,8 +28,7 @@ type HomeController struct {
 
 func (this *HomeController) Get() {
 	this.Prepare()
-	this.Data["Content"] = "value"
-	fmt.Println("IsLogin:", this.IsLogin, this.Loginuser)
+
 	this.TplName = "home.html"
 }
 

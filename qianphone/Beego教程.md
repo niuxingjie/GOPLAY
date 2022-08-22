@@ -174,6 +174,7 @@ missing go.sum entry for module providing package github.com/go-sql-driver/mysql
 
 go mod download github.com/go-sql-driver/mysql
 ```
+
 - msyql 配置远程登录
 ```
 # 开启root用户的远程登录
@@ -222,6 +223,7 @@ go get Myblog
 /root/go/bin/bee run
 
 
+cd /mnt/d/ProgramData/GoPlay/qianphone/beego/Myblog/ && /root/go/bin/bee run
 ```
 
 
