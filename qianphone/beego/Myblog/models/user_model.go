@@ -32,7 +32,7 @@ func InsertUser(user User) (int64, error) {
 // 拼接过滤条件查询用户id
 func QueryUserWightCon(con string) int {
 	sql := fmt.Sprintf("SELECT id FROM users %s;", con)
-	fmt.Println(sql)
+	// fmt.Println(sql)
 	row := utils.QueryRowDB(sql)
 	id := 0
 	row.Scan(&id)

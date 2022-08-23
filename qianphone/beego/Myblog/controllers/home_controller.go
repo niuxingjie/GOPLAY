@@ -11,16 +11,22 @@ type HomeController struct {
 }
 
 func (this *HomeController) Get() {
-	this.Prepare()
+
 	page, _ := this.GetInt("page")
 	if page <= 0 {
 		page = 1
 	}
 	var article_list []models.Article
+
+	// 查询文章数据
 	article_list, _ = models.FindArticleWithPage(page)
-	this.Data["PageCode"] = 1
-	this.Data["HashFooter"] = true
+
+	// 组合页码数据
+	this.Data["PageCode"] = models.ConfigHomeFooterPageCode(page)
+	this.Data["HasFooter"] = true
 	fmt.Println("IsLogin:", this.IsLogin, this.Loginuser)
+
+	// 文章数据渲染html源码
 	this.Data["Content"] = models.MakeHomeBlocks(article_list, this.IsLogin)
 	this.TplName = "home.html"
 }
