@@ -14,5 +14,5 @@ func init() {
 
 	// 文章管理相关接口
 	beego.Router("/article/add", &controllers.AddArticleController{})
-
+	beego.Router("/article/:id", &controllers.ShowArticleController{})
 }

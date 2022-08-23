@@ -3,6 +3,7 @@ package models
 import (
 	"Myblog/utils"
 	"fmt"
+	"strconv"
 
 	"github.com/astaxie/beego"
 )
@@ -106,4 +107,19 @@ func QueryArticleRowNum() int {
 	num := 0
 	row.Scan(&num)
 	return num
+}
+
+func QueryArticleWithId(id int) Article {
+	sql := "select id,title,tags,short,content,author,createtime from article where id=" + strconv.Itoa(id)
+	row := utils.QueryRowDB(sql)
+	title := ""
+	tags := ""
+	short := ""
+	content := ""
+	author := ""
+	var createtime int64
+	createtime = 0
+	row.Scan(&id, &title, &tags, &short, &content, &author, &createtime)
+	art := Article{id, title, tags, short, content, author, createtime}
+	return art
 }
