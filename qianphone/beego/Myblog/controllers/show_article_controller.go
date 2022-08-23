@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"Myblog/models"
+	"Myblog/utils"
 	"fmt"
 	"strconv"
 )
@@ -19,6 +20,6 @@ func (this *ShowArticleController) Get() {
 	art := models.QueryArticleWithId(id)
 	this.Data["Title"] = art.Title
 	this.Data["Content"] = art.Content
-	//this.Data["Content"] = utils.SwitchMarkdownToHtml(art.Content)
+	this.Data["Content"] = utils.SwitchMarkdownToHtml(art.Content)
 	this.TplName = "show_article.html"
 }
