@@ -21,17 +21,6 @@ func (c *MainController) Get() {
 	c.TplName = "index.tpl"
 }
 
-//homepage
-type HomeController struct {
-	BaseController
-}
-
-func (this *HomeController) Get() {
-	this.Prepare()
-
-	this.TplName = "home.html"
-}
-
 // register
 type RegisterController struct {
 	beego.Controller

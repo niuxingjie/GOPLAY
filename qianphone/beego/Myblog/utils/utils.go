@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/astaxie/beego"
 
@@ -90,4 +91,12 @@ func QueryRowDB(sql string) *sql.Row {
 func MD5(str string) string {
 	md5str := fmt.Sprintf("%x", md5.Sum([]byte(str)))
 	return md5str
+}
+
+func QueryDB(sql string) (*sql.Rows, error) {
+	return db.Query(sql)
+}
+
+func SwitchTimeStampToData(timestamp int64) string {
+	return strconv.FormatInt(timestamp, 10)
 }
