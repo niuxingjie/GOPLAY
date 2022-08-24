@@ -3,6 +3,7 @@ package models
 import (
 	"Myblog/utils"
 	"fmt"
+	"log"
 	"strconv"
 
 	"github.com/astaxie/beego"
@@ -137,4 +138,18 @@ func DeleteArticle(artID int) (int64, error) {
 }
 func deleteArticleWithArtId(artID int) (int64, error) {
 	return utils.ModifyDB("delete from article where id=?", artID)
+}
+
+func QueryArticleWithParam(param string) []string {
+	rows, err := utils.QueryDB(fmt.Sprintf("select %s from article", param))
+	if err != nil {
+		log.Println(err)
+	}
+	var paramList []string
+	for rows.Next() {
+		arg := ""
+		rows.Scan(&arg)
+		paramList = append(paramList, arg)
+	}
+	return paramList
 }
