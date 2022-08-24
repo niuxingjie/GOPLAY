@@ -7,6 +7,7 @@ require github.com/astaxie/beego v1.12.1
 require (
 	github.com/PuerkitoBio/goquery v1.8.0
 	github.com/go-sql-driver/mysql v1.4.1
+	github.com/opentracing/opentracing-go v1.2.0
 	github.com/russross/blackfriday v1.6.0
 	github.com/smartystreets/goconvey v1.6.4
 	github.com/sourcegraph/syntaxhighlight v0.0.0-20170531221838-bd320f5d308e
