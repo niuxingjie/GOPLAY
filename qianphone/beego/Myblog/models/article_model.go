@@ -153,3 +153,12 @@ func QueryArticleWithParam(param string) []string {
 	}
 	return paramList
 }
+
+func QueryArticleWithTag(tag string) ([]Article, error) {
+	sql := " where tags like '%&" + tag + "&%'"
+	sql += " or tags like '%&" + tag + "'"
+	sql += " or tags like '" + tag + "&%'"
+	sql += " or tags like '" + tag + "'"
+	fmt.Println(sql)
+	return QueryArticlesWithCon(sql)
+}
