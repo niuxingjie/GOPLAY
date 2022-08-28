@@ -573,10 +573,60 @@ tree ./ -L 3
 ## 11｜代码块与作用域：如何保证变量不会被遮蔽？
 
 
+## 24 理解方法的本质
+
+### 方法本质上就是函数
+
+```
+- Go 函数的参数采用的是值拷贝传递
+
+```
 
 
+### 选择 receiver 参数类型的第一个原则
+
+```text
+type T struct{}
+
+func (t T) Tmethod {} 还是 func (t *T) Tmethod {}
+
+- 1、如果 Go 方法要把对 receiver 参数代表的类型实例的修改，反映到原类型实例上，那么我们应该选择 *T 作为 receiver 参数的类型。
+	- 无论是 T 类型实例，还是 *T 类型实例，都既可以调用 receiver 为 T 类型的方法，也可以调用 receiver 为 *T 类型的方法。
+- 2、如果 receiver 参数类型的 size 较大
+	- 因为函数是值拷贝传参，会增加参数值大小的内存
+- 3、T 类型是否需要实现某个接口
+	- 如果 T 类型需要实现某个接口，那我们就要使用 T 作为 receiver 参数的类型，来满足接口类型方法集合中的所有方法。
+	- 如果 T 不需要实现某一接口，但 *T 需要实现该接口，那么根据方法集合概念，*T 的方法集合是包含 T 的方法集合的，这样我们在确定 Go 方法的 receiver 的类型时，参考原则一和原则二就可以了。
+
+```
 
 
+- 方法集合
+```go
+// 可以获取【非接口类型】的方法集合的函数
+func dumpMethodSet(i interface{}) {
+    dynTyp := reflect.TypeOf(i)
+
+    if dynTyp == nil {
+        fmt.Printf("there is no dynamic type\n")
+        return
+    }
+
+    n := dynTyp.NumMethod()
+    if n == 0 {
+        fmt.Printf("%s's method set is empty!\n", dynTyp)
+        return
+    }
+
+    fmt.Printf("%s's method set:\n", dynTyp)
+    for j := 0; j < n; j++ {
+        fmt.Println("-", dynTyp.Method(j).Name)
+    }
+    fmt.Printf("\n")
+}
+
+
+```
 
 ## END
 
