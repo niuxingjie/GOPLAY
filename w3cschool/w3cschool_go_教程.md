@@ -1,6 +1,7 @@
 ## W3Cschool
 
 [Go 语言教程](https://www.w3cschool.cn/go/go-tutorial.html)
+[Go online 菜鸟工具](https://c.runoob.com/compile/21/)
 
 ## Go Hello World 实例
 
@@ -876,6 +877,31 @@ func main() {
 	defer fmt.Println(3)
 	fmt.Println("结束")
 }
+
+
+
+package main
+
+import "fmt"
+
+func main() {
+	var a int
+	fmt.Println("开始")
+	defer fmt.Println(a)
+	a++
+	defer fmt.Println(a)
+	a++
+	defer fmt.Println(a)
+	a++
+	fmt.Println("结束")
+}
+
+
+开始
+结束
+2
+1
+0
 ```
 
 
