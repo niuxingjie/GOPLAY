@@ -444,10 +444,55 @@ func (s *Slice)Remove(value interface{}) error {
 
 ## 填空题
 
+- 初级
+```
+1. [primary] 声明一个整型变量i
+答案：var i int
+
+
+2. [primary] 声明一个含有10个元素的整型数组a
+答案：var a [10]int
+
+
+3. [primary] 声明一个整型数组切片s
+答案：var s []int
+
+4. [primary] 声明一个整型指针变量p
+答案：var p *int
+
+5. [primary] 声明一个key为字符串型value为整型的map变量m
+答案：var m map[string]int
+
+6. [primary] 声明一个入参和返回值均为整型的函数变量f
+答案：
+func f (n int) int {
+    return n
+}
+
+var f func(a int) int
+
+7. [primary] 声明一个只用于读取int数据的单向channel变量ch
+答案：
+解析：chan的定义与使用
+
+8.  假设源文件的命名为slice.go，则测试文件的命名为
+答案：slice_test.go
+解析：编码规范？
+
+9. go test要求测试函数的前缀必须命名为
+答案：Test
+
+```
 
 
 
 
 ## 判断题
 
+- 初级
+```
+
+
+
+```
 
