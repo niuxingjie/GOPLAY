@@ -64,7 +64,6 @@ git config --global --unset http.proxy
 git config --global --unset https.proxy
 
 
-
 ```
 
 
@@ -100,6 +99,22 @@ $ git status
             modified:   .gitignore
             modified:   README.md
             modified:   "Tony Bai \302\267 Go \350\257\255\350\250\200\347\254\254\344\270\200\350\257\276.md"
+```
+
+- 创建新分支跟踪远程分分支
+```sh
+# 可以同步远程分支到本地
+git fetch origin
+
+# 查看远程分支
+git branch -av
+	* master                4e218b0 指针20220704
+	  remotes/origin/HEAD   -> origin/master
+	  remotes/origin/dev    2cbc38d geekbang: chapter09
+	  remotes/origin/master 4e218b0 指针20220704
+
+# 创建新分支追踪远程分支
+git checkout -b dev remotes/origin/dev
 ```
 
 

@@ -3,6 +3,7 @@
 
 [Golang精编100题](https://www.jianshu.com/p/f690203ff168)
 
+通过练习题，反复学习[Golang-100-Days笔记](https://github.com/niuxingjie/Golang-100-Days)
 
 ## 能力模型
 
@@ -331,8 +332,72 @@ C. 可以通过“*”取指针指向的数据
 D. 可以对指针进行下标运算
 
 答案：BC
+解析：
+    - p.name是获取指针变量*p的成员的简写方式
+
+
+19. [primary] 关于main函数（可执行程序的执行起点），下面说法正确的是（）
+A. main函数不能带参数
+B. main函数不能定义返回值
+C. main函数所在的包必须为main包
+D. main函数中可以使用flag包来获取和解析命令行参数
+
+答案：ABCD
+```
+
+- 中级
+```
+20. [intermediate] 下面赋值正确的是（）
+A. var x = nil
+B. var x interface{} = nil
+C. var x string = nil
+D. var x error = nil
+
+答案：BD
+解析：
+    - 不同类型的变量，go会赋予默认的初始值（默认O值）
+        类型	默认值
+        整数	0
+        浮动	0
+        复数	0 个实部和 0 个虚部
+        字节	0
+        符文	0
+        字串	“”
+        布尔	错误
+        数组	每个数组的值都为其默认值
+        结构	每个字段均为默认值
+        地图	无（nil）	
+        频道	无（nil）	
+        界面	无（nil）	
+        切片	无（nil）	
+        指针    无（nil）	
+    - 如何定义一个值为nil的变量？
+
+
+21. [intermediate] 关于整型切片的初始化，下面正确的是（）
+A. s := make([]int)
+B. s := make([]int, 0)
+C. s := make([]int, 5, 10)
+D. s := []int{1, 2, 3, 4, 5}
+
+答案：BCD
+解析：
+    - 定义切片：var identifier []type 切片不需要说明长度
+    - go语言make的用法有：
+        - 初始化映射：make(map[string]string) 这种用法只能用在类型为map或chan的场景
+        - 初始化切片：make([]int, 2) 一个长度为2的slice
+        - make([]int, 2, 4)  切片a的最大长度为4（容量），当前只初始化2个。
 
 
 
 ```
+
+## 填空题
+
+
+
+
+
+## 判断题
+
 
