@@ -389,6 +389,56 @@ D. s := []int{1, 2, 3, 4, 5}
         - make([]int, 2, 4)  切片a的最大长度为4（容量），当前只初始化2个。
 
 
+22. [intermediate] 从切片中删除一个元素，下面的算法实现正确的是（）
+A.
+func (s *Slice)Remove(value interface{}) error {
+        for i, v := range *s {
+            if isEqual(value, v) {
+                if i== len(*s) - 1 {
+                    *s = (*s)[:i]
+                }else {
+                    *s = append((*s)[:i],(*s)[i + 2:]...)
+                }
+                return nil
+            }
+        }
+        return ERR_ELEM_NT_EXIST
+}
+B.
+func (s *Slice)Remove(value interface{}) error {
+        for i, v := range *s {
+            if isEqual(value, v) {
+                *s = append((*s)[:i],(*s)[i + 1:])
+                return nil
+            }
+        }
+        return ERR_ELEM_NT_EXIST
+}
+C.
+func (s *Slice)Remove(value interface{}) error {
+        for i, v := range *s {
+            if isEqual(value, v) {
+                delete(*s, v)
+                return nil
+            }
+        }
+        return ERR_ELEM_NT_EXIST
+}
+D.
+func (s *Slice)Remove(value interface{}) error {
+        for i, v := range *s {
+            if isEqual(value, v) {
+                *s = append((*s)[:i],(*s)[i + 1:]...)
+                return nil
+            }
+        }
+        return ERR_ELEM_NT_EXIST
+}
+
+答案：D
+解析：常见数据类型的操作
+    - 数据、切片、指针、map
+    - 增删查改
 
 ```
 
