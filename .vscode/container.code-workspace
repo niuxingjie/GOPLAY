@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../../usr/local/go/src"
+		},
+		{
+			"path": "../../../go/pkg/mod"
+		}
+	],
+	"settings": {}
+}

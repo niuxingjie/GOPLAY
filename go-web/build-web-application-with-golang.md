@@ -3,7 +3,7 @@
 
 [从零开始学 Go Web 编程：build-web-application-with-golang](https://github.com/astaxie/build-web-application-with-golang)
 
-
+[go 在线工具](https://c.runoob.com/compile/21/)
 
 ### 要点记录
 
@@ -86,4 +86,23 @@ https://github.com/niuxingjie/build-web-application-with-golang/blob/master/zh/0
 另外，如果是采用了Ajax模式递交表单的话，当表单递交后，通过javascript来禁用表单的递交按钮。
 ```
 
+2. 位运算符
+```go
+package main
 
+import "fmt"
+
+func main() {
+	fmt.Println("2的10次方就是1024=4*4*4*4*4=", 4*4*4*4*4)
+    fmt.Println("n<<10就是n*1024：", 32<<20/1024)
+    fmt.Println("n<<20就是n*1024*1024：", 32<<20/1024/1024)
+	fmt.Println("32<<10 B就可以表示32KB")
+	fmt.Println("32<<20 B就可以表示32MB")
+}
+
+// 2的10次方就是1024=4*4*4*4*4= 1024
+// n<<10就是n*1024： 32768
+// n<<20就是n*1024*1024： 32
+// 32<<10 B就可以表示32KB
+// 32<<20 B就可以表示32MB
+```
