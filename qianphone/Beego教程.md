@@ -176,7 +176,7 @@ go mod download github.com/go-sql-driver/mysql
 ```
 
 - msyql 配置远程登录
-```
+```sh
 # 开启root用户的远程登录
 
 sudo su root
