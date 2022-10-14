@@ -37,6 +37,11 @@ func GetFunctionName(i interface{}) string {
 
 // 排序数组
 func bubble_sort_1(a []int, n int) []int {
+	// 处理边界情况
+	if n <= 1 {
+		return a
+	}
+
 	// go 数组能直接赋值给切片参数吗:数组是值类型，切片是引用类型。
 	fmt.Println("bubble_sort_1")
 	for i := 0; i < n-1; i++ {
@@ -52,6 +57,10 @@ func bubble_sort_1(a []int, n int) []int {
 
 // 排序数组
 func bubble_sort_2(a []int, n int) []int {
+	// 处理边界情况
+	if n <= 1 {
+		return a
+	}
 	// go 数组能直接赋值给切片参数吗:数组是值类型，切片是引用类型。
 	fmt.Println("bubble_sort_2")
 	flag := true
