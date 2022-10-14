@@ -13,12 +13,15 @@ func main() {
 
 	test_sort(bubble_sort_1, a)
 
-	a = []int{5, 1, 2, 3, 4}
+	a = []int{8, 1, 2, 3, 4, 5, 6, 7}
+	test_sort(bubble_sort_2, a)
+
+	a = []int{8, 1, 3, 2, 4, 5, 6, 7}
 	test_sort(bubble_sort_2, a)
 }
 
 func test_sort(f func([]int, int) []int, a []int) {
-	fmt.Printf("测试%s\n", GetFunctionName(f))
+	fmt.Printf("测试%s：", GetFunctionName(f))
 	// 打印初始数据
 	print_array(a)
 	// 排序数据
@@ -43,9 +46,10 @@ func bubble_sort_1(a []int, n int) []int {
 	}
 
 	// go 数组能直接赋值给切片参数吗:数组是值类型，切片是引用类型。
-	fmt.Println("bubble_sort_1")
+	times := 0
 	for i := 0; i < n-1; i++ {
-		fmt.Printf("第%d次冒泡\n", i+1)
+		times++
+		fmt.Printf("第%d轮冒泡\n", times)
 		for j := 0; j < n-1; j++ {
 			if a[j] > a[j+1] {
 				a[j], a[j+1] = a[j+1], a[j]
@@ -62,18 +66,18 @@ func bubble_sort_2(a []int, n int) []int {
 		return a
 	}
 	// go 数组能直接赋值给切片参数吗:数组是值类型，切片是引用类型。
-	fmt.Println("bubble_sort_2")
-	flag := true
+	times := 0
 	for i := 0; i < n-1; i++ {
-		if flag {
-			fmt.Printf("第%d次冒泡\n", i+1)
-			for j := 0; j < n-1; j++ {
-				if a[j] > a[j+1] {
-					a[j], a[j+1] = a[j+1], a[j]
-					flag = false
-				}
+		flag := true
+		times++
+		fmt.Printf("第%d轮冒泡\n", times)
+		for j := 0; j < n-1; j++ {
+			if a[j] > a[j+1] {
+				a[j], a[j+1] = a[j+1], a[j]
+				flag = false
 			}
-		} else {
+		}
+		if flag {
 			break
 		}
 	}
