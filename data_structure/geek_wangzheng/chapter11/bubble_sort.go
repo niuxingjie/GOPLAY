@@ -50,7 +50,7 @@ func bubble_sort_1(a []int, n int) []int {
 	for i := 0; i < n-1; i++ {
 		times++
 		fmt.Printf("第%d轮冒泡\n", times)
-		for j := 0; j < n-1; j++ {
+		for j := 0; j < n-i-1; j++ {
 			if a[j] > a[j+1] {
 				a[j], a[j+1] = a[j+1], a[j]
 			}
@@ -71,7 +71,7 @@ func bubble_sort_2(a []int, n int) []int {
 		flag := true
 		times++
 		fmt.Printf("第%d轮冒泡\n", times)
-		for j := 0; j < n-1; j++ {
+		for j := 0; j < n-i-1; j++ {
 			if a[j] > a[j+1] {
 				a[j], a[j+1] = a[j+1], a[j]
 				flag = false
