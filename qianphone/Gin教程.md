@@ -87,7 +87,20 @@ type Register struct {
     exit status 1
 ```
 
+### p4 响应的多种格式
 
+1. 三种数据类型的比较
+```
+map和python中字典：
+    - map[key_type]value_type
+struct结构体：
+    - Struct {Attr1: value, Attr2: value}
+python中属性：
+    - person.age
+
+属性必须是可用的标识符,不能是纯数字
+键key只要是可哈希对象都可以,可以是纯数字
+```
 
 
 
