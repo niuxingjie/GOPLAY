@@ -104,8 +104,34 @@ python中属性：
 
 
 
+### p5 请求路由组的使用
 
 
+### p6 中间件的编写与使用
 
+1. 函数本身也可以作为类型, 用于声明变量和类型注解
+```go
+// github.com/gin-gonic/gin@v1.8.1/gin.go +43
+// HandlerFunc defines the handler used by gin middleware as return value.
+// HandlerFunc是接受Context指针的一类函数
+type HandlerFunc func(*Context) 
+
+
+// 函数RequestInfo返回值类型为HandlerFunc的函数
+func RequestInfo() gin.HandlerFunc {
+	return func(context *gin.Context) {
+        ......
+	}
+}
+
+```
+
+
+### p7
+
+1. 下载go的mysql驱动包
+```sh
+go get "github.com/go-sql-driver/mysql"
+```
 
 
