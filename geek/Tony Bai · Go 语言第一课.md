@@ -591,7 +591,7 @@ obj.(Type) ：这种形式用于向下转型，即接口对象转结构体对象
 
 ## 24 理解方法的本质
 
-### 方法本质上就是函数
+1. 方法本质上就是函数
 
 ```
 - Go 函数的参数采用的是值拷贝传递
@@ -599,7 +599,7 @@ obj.(Type) ：这种形式用于向下转型，即接口对象转结构体对象
 ```
 
 
-### 选择 receiver 参数类型的第一个原则
+2. 选择 receiver 参数类型的第一个原则
 
 ```text
 type T struct{}
@@ -617,7 +617,7 @@ func (t T) Tmethod {} 还是 func (t *T) Tmethod {}
 ```
 
 
-- 方法集合
+3. 方法集合
 ```go
 // 可以获取【非接口类型】的方法集合的函数
 func dumpMethodSet(i interface{}) {
@@ -643,6 +643,76 @@ func dumpMethodSet(i interface{}) {
 
 
 ```
+
+
+## 29｜接口：为什么nil接口不等于nil？
+
+
+1. 接口的【静态特性】与【动态特性】
+
+- 静态特性
+	```
+	编译阶段的类型检查：
+		- var err error  变量定义
+		- func (err error) {} 函数参数校验
+		- type Response struct { Err error} 结构体属性校验
+		。。。。。。
+
+	【接口interface】拥有静态类型：
+		- 那就意味着编译器会在编译阶段对所有接口类型变量的赋值操作进行类型检查，
+		- 编译器会检查右值的类型是否实现了该接口方法集合中的所有方法。
+	
+	空接口interface}{}可以持有任何类型数据
+	```
+
+- code
+	```go
+	package main
+
+	import (
+		"fmt"
+	)
+
+	func main() {
+		fmt.Println("结构体的类型判断：")
+		liming := Person{Name: "liming", Age: 28}
+		Skill(liming)
+	}
+
+	type PersonAction interface {
+		Run()
+		Eat()
+	}
+
+	type Person struct {
+		Name string
+		Age  int
+	}
+
+	func (p Person) Run() {
+		fmt.Println(p.Name, " can run")
+	}
+
+	func (p Person) Eat() {
+		fmt.Println(p.Name, " can eat!")
+	}
+
+	// 接口的静态特性：PersonAction持有实现了接口方法的结构体
+	// 编写Skil(Person{Name: "liming", Age: 20})是可以通过编译的
+	func Skill(p PersonAction) {
+		p.Run()
+		p.Eat()
+	}
+
+	```
+
+- 动态特性
+  ```
+	【接口】动态特性：
+		- 就体现在接口类型变量在运行时还存储了右值的真实类型信息，这个右值的真实类型被称为接口类型变量的动态类型
+
+  ```
+
 
 ## END
 

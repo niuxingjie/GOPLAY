@@ -1,3 +1,11 @@
+/*
+
+# command-line-arguments
+./main.go:12:14: invalid operation: liming (variable of type Person) is not an interface
+./main.go:17:9: liming (variable of type Person) is not an interface
+
+*/
+
 package main
 
 import (
