@@ -23,6 +23,7 @@ go mod tidy
 git run main.go
 ```
 
+## gin的基本知识：
 
 ### p2 HTTP请求和参数解析
 
@@ -135,3 +136,52 @@ go get "github.com/go-sql-driver/mysql"
 ```
 
 
+
+## CloudRestaurant项目实战
+
+### p8
+
+1. 指针问题：
+```go
+package tool
+
+import (
+	"bufio"
+	"encoding/json"
+	"fmt"
+	"os"
+)
+
+type Config struct {
+	AppName string `json:"app_name"`
+	AppMode string `json:"app_mode"`
+	AppHost string `json:"app_host"`
+	AppPort string `json:"app_port"`
+}
+
+var _config *Config
+
+func ParseConfig(file_path string) (*Config, error) {
+
+	// 读取文件
+	file, err := os.Open(file_path)
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+
+	reader := bufio.NewReader(file)
+	decoder := json.NewDecoder(reader)
+
+	// decoder.Decode(_config) 会报错 panic: json: Unmarshal(nil *tool.Config)  TODO：指针的用法？
+	if err := decoder.Decode(&_config); err != nil {
+		return nil, err
+	}
+	fmt.Println(_config)
+	return _config, nil
+}
+
+
+// marshal: v.结集；收集；安排；控制人群 n.空军元帅；司仪；典礼官；（美国法院的）执行官
+
+```
