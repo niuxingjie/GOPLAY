@@ -22,5 +22,10 @@ func main() {
 }
 
 func registerRouter(engine *gin.Engine) {
+
+	// user
 	new(controller.UserController).UserRouter(engine.Group("/user"))
+
+	// Member
+	new(controller.MemberController).Router(engine.Group("/member"))
 }

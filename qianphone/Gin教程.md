@@ -194,9 +194,63 @@ func registerRouter(engine *gin.Engine) {
 
 在golang中提供了两种分配原语，即内建函数new 和 make(暂不提)。
 
-new是用来分配内存的内建函数，区别于其他语言中new会初始化内存，golang中的new只会将内存置零。
+- new是用来分配内存的内建函数，区别于其他语言中new会初始化内存，golang中的new只会将内存置零。
 
-也就是说，new(T)会为类型为T的新项分配已置零的内存空间，并返回它的地址。也就是一个类型为*T的值。在GO中就是它返回一个指针，该指针指向新分配的，类型为T的零值。
+- 就是说，new(T)会为类型为T的新项分配已置零的内存空间，并返回它的地址。也就是一个类型为*T的值。
+
+- 在GO中就是它返回一个指针，该指针指向新分配的，类型为T的零值。
 
 零值属性带来的好处就是当我们用new声明某种类型时就已经分配好内存了，无需进一步处理即可正常工作。
 ```
+
+### p10
+
+
+1. 结构体的匿名字段(没有字段名，只有父级结构体类型)实现继承
+```go
+// 定义配置文件结构及参数
+type Config struct {
+	AppName    string       `json:"app_name"`
+	AppMode    string       `json:"app_mode"`
+	AppHost    string       `json:"app_host"`
+	AppPort    string       `json:"app_port"`
+	SMSCionfig `json:"sms"` //结构体的匿名字段实现继承
+}
+
+// 定义sms参数
+type SMSCionfig struct {
+	SignName     string `json:"sign_name"`
+	TemplateCode string `json:"template_code"`
+	AppKey       string `json:"app_key"`
+	AppSecret    string `json:"app_secret"`
+	RegionID     string `json:"region_id"`
+}
+
+```
+
+
+2. MVC的架构
+```doc
+前后端分析盛行之下：（view不在后端实现了）
+- 中间件middleware
+- 路由router
+- 控制器controller
+- 服务service
+- 模型model
+```
+
+
+3. 标准库
+```go
+json
+
+rand
+
+log
+
+fmt
+
+```
+
+
+
