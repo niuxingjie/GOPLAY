@@ -10,5 +10,7 @@
 			"path": "../../../go/pkg/mod"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"go.useLanguageServer": false
+	}
 }

@@ -185,3 +185,18 @@ func ParseConfig(file_path string) (*Config, error) {
 // marshal: v.结集；收集；安排；控制人群 n.空军元帅；司仪；典礼官；（美国法院的）执行官
 
 ```
+
+1. new关键字
+```go
+func registerRouter(engine *gin.Engine) {
+	new(controller.UserController).UserRouter(engine.Group("/user"))
+}
+
+在golang中提供了两种分配原语，即内建函数new 和 make(暂不提)。
+
+new是用来分配内存的内建函数，区别于其他语言中new会初始化内存，golang中的new只会将内存置零。
+
+也就是说，new(T)会为类型为T的新项分配已置零的内存空间，并返回它的地址。也就是一个类型为*T的值。在GO中就是它返回一个指针，该指针指向新分配的，类型为T的零值。
+
+零值属性带来的好处就是当我们用new声明某种类型时就已经分配好内存了，无需进一步处理即可正常工作。
+```

@@ -14,7 +14,12 @@ FROM golang:${VARIANT}
 # [Optional] Uncomment the next line to use go get to install anything else you need
 # RUN go get -x <your-dependency-or-tool>
 ENV GOPROXY=https://goproxy.cn,direct
-RUN go install -v golang.org/x/tools/gopls@latest && go install github.com/go-delve/delve/cmd/dlv@latest
+ENV LS_OPTIONS=--color=auto
+
+WORKDIR /$WORKSPACE
+
+RUN echo 'alias ll="ls $LS_OPTIONS -l"' >> /root/.bashrc \
+    && echo 'alias ls="ls $LS_OPTIONS"' >> /root/.bashrc 
 
 # [Optional] Uncomment this line to install global node packages.
 # RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1

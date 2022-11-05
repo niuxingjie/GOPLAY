@@ -124,7 +124,10 @@ git checkout -b dev remotes/origin/dev
 
 [microsoft/vscode-remote-try-go](https://github.com/microsoft/vscode-remote-try-go)
 
-
+- 更新go相关插件
+  ```
+    alt + shift + p  --> GO:Install\Update Tools
+  ```
 
 
 
