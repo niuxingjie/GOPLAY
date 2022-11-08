@@ -9,11 +9,12 @@ import (
 
 // 定义配置文件结构及参数
 type Config struct {
-	AppName    string       `json:"app_name"`
-	AppMode    string       `json:"app_mode"`
-	AppHost    string       `json:"app_host"`
-	AppPort    string       `json:"app_port"`
-	SMSCionfig `json:"sms"` //结构体的匿名字段实现继承
+	AppName    string          `json:"app_name"`
+	AppMode    string          `json:"app_mode"`
+	AppHost    string          `json:"app_host"`
+	AppPort    string          `json:"app_port"`
+	SMSCionfig `json:"sms"`    //结构体的匿名字段实现继承
+	Database   DatabaseCionfig `json:"database"` // 非匿名字段，注意使用时获取方式
 }
 
 // 定义sms参数
@@ -23,6 +24,18 @@ type SMSCionfig struct {
 	AppKey       string `json:"app_key"`
 	AppSecret    string `json:"app_secret"`
 	RegionID     string `json:"region_id"`
+}
+
+// 数据库配置
+type DatabaseCionfig struct {
+	Driver   string `json:"driver"`
+	Host     string `json:"host"`
+	Port     string `json:"port"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+	DbName   string `json:"db_name"`
+	Charset  string `json:"charset"`
+	ShowSQL  bool   `json:"show_sql"`
 }
 
 // 包内私有变量

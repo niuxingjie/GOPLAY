@@ -9,10 +9,19 @@ import (
 
 func main() {
 
+	// 读取配置文件
 	app_config, err := tool.ParseConfig("./config/app.json")
 	if err != nil {
 		panic(err)
 	}
+
+	// 初始化数据库引擎
+	_, err = tool.OrmEngine(app_config)
+	if err != nil {
+		panic(err)
+	}
+
+	// 初始化服务引擎
 	app := gin.Default()
 	registerRouter(app)
 	if err := app.Run(app_config.AppHost + ":" + app_config.AppPort); err != nil {

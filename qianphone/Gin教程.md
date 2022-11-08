@@ -232,11 +232,12 @@ type SMSCionfig struct {
 2. MVC的架构
 ```doc
 前后端分析盛行之下：（view不在后端实现了）
-- 中间件middleware
-- 路由router
-- 控制器controller
-- 服务service
-- 模型model
+- 中间件middleware：通用操作
+- 路由router： 路由转发
+- 控制器controller：处理路由
+- 服务service：多（对象）表操作
+- 数据对象dao：单（对象）表操作
+- 模型model：表结构与结构体映射
 ```
 
 
@@ -253,4 +254,45 @@ fmt
 ```
 
 
+### p11
 
+
+1. 返回值为nil时类型注解问题
+```go
+type Orm struct {
+	*xorm.Engine
+}
+
+var DbEngine *Orm
+
+func OrmEngine(conf Config) (Orm, error) {
+	......
+	return nil, err
+}
+
+// tool/OrmEngine.go:24:10: cannot use nil as Orm value in return statement
+// 改正如下：修改返回值的类型
+type Orm struct {
+	*xorm.Engine
+}
+
+var DbEngine *Orm
+
+func OrmEngine(conf Config) (*Orm, error) {
+	......
+	return nil, err
+}
+
+```
+
+2. 结构体匿名字段初始化问题
+```go
+type MemberDao struct {
+	*tool.Orm
+}
+
+
+member_dao := dao.MemberDao{tool.DbEngine}
+result := member_dao.InsertCode(sms_cocde)
+
+```

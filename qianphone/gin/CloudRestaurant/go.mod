@@ -5,6 +5,8 @@ go 1.18
 require (
 	github.com/aliyun/alibaba-cloud-sdk-go v1.61.1843
 	github.com/gin-gonic/gin v1.8.1
+	github.com/go-sql-driver/mysql v1.6.0
+	github.com/go-xorm/xorm v0.7.9
 )
 
 require (
@@ -28,4 +30,6 @@ require (
 	google.golang.org/protobuf v1.28.0 // indirect
 	gopkg.in/ini.v1 v1.66.2 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
+	xorm.io/builder v0.3.6 // indirect
+	xorm.io/core v0.7.2-0.20190928055935-90aeac8d08eb // indirect
 )

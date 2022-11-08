@@ -1,6 +1,8 @@
 package service
 
 import (
+	"CloudRestaurant/dao"
+	"CloudRestaurant/model"
 	"CloudRestaurant/tool"
 	"encoding/json"
 	"fmt"
@@ -35,7 +37,7 @@ func (m MememberService) SendCode(phone string) bool {
 	request.TemplateCode = app_config.TemplateCode //短信模板ID
 
 	// 生成四位随机验证码
-	code := fmt.Sprintf("%04v", rand.New(rand.NewSource(time.Now().UnixNano())).Int31n(10000))
+	code := fmt.Sprintf("%06v", rand.New(rand.NewSource(time.Now().UnixNano())).Int31n(1000000))
 	par, err := json.Marshal(map[string]interface{}{
 		"code": code,
 	})
@@ -49,8 +51,18 @@ func (m MememberService) SendCode(phone string) bool {
 	response, err := client.SendSms(request)
 	if err != nil {
 		log.Println(err.Error())
-		return false
 	}
 	fmt.Printf("response is %#v\n", response)
-	return true
+
+	// 保存至数据库
+	sms_cocde := model.SmsCode{
+		Phone:      phone,
+		Code:       code,
+		BizId:      response.BizId,
+		CreateTime: time.Now().Unix(),
+	}
+
+	member_dao := dao.MemberDao{tool.DbEngine}
+	result := member_dao.InsertCode(sms_cocde)
+	return result > 0
 }

@@ -9,5 +9,15 @@
         "app_key": "dfsdfsokf89345",
         "app_secret": "skf93484sdl3o44jd875",
         "region_id": "cn-hangzhou"
+    },
+    "database": {
+        "driver": "mysql",
+        "host": "172.17.0.1",
+        "port": "13306",
+        "username": "root",
+        "password": "password123456",
+        "db_name": "cloudrestaurant",
+        "charset": "utf8",
+        "show_sql": true
     }
 }
