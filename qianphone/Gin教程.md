@@ -296,3 +296,58 @@ member_dao := dao.MemberDao{tool.DbEngine}
 result := member_dao.InsertCode(sms_cocde)
 
 ```
+
+### p13
+
+1. 几种返回值的使用与接受处理
+```go
+
+nil
+
+error
+
+bool
+
+
+```
+
+2. 类型问题
+```go
+member := member_dao.QueryByPhhone(sms.Phone)  // member 这里定义了 type为 *model.Member 后面再赋值时需要类型一致
+if member.Id != 0 {
+	return member
+}
+
+member = model.Member{}  // cannot use model.Member{} (value of type model.Member) as type *model.Member in assignmentgo
+member.UserName = phone
+member.Mobile = phone
+member.RegisterTime = time.Now().Unix()
+
+
+```
+
+3. 当结构体作为参数传入函数，想用结构体存储处理后的数据时，需要使用结构体指针
+```go
+// 解析json格式参数
+body := context.Request.Body
+err := tool.ParseJson{}.Decode(body, smsLoginParam)   // smsLoginParam
+if err != nil {
+	tool.Failure(context, err.Error())
+	return
+}
+
+
+// 解析json格式参数
+body := context.Request.Body
+err := tool.ParseJson{}.Decode(body, &smsLoginParam)  // 结构体是值类型，只有传递指针时，函数内修改了结构体的属性，才能保存下来
+if err != nil {
+	tool.Failure(context, err.Error())
+	return
+}
+
+
+// smsLoginParam: CloudRestaurant/param.SmsLoginParam {Phone: "1234564564", Code: "510660"}
+特别需要注意的点是：是否需要改变结构体属性并且保存下来，决定了是否必须使用指针
+```
+
+

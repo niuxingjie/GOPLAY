@@ -30,11 +30,13 @@ func OrmEngine(conf *Config) (*Orm, error) {
 	engine.ShowSQL(database_config.ShowSQL)
 
 	// 表映射同步
-	err = engine.Sync2(new(model.SmsCode))
+	tables := []interface{}{new(model.SmsCode), new(model.Member)}
+	err = engine.Sync2(tables...)
 	if err != nil {
 		return nil, err
 	}
 
+	// 返回全局的orm，用于后续链接数据库操作
 	orm := new(Orm)
 	orm.Engine = engine
 

@@ -3,6 +3,7 @@ package service
 import (
 	"CloudRestaurant/dao"
 	"CloudRestaurant/model"
+	"CloudRestaurant/param"
 	"CloudRestaurant/tool"
 	"encoding/json"
 	"fmt"
@@ -65,4 +66,34 @@ func (m MememberService) SendCode(phone string) bool {
 	member_dao := dao.MemberDao{tool.DbEngine}
 	result := member_dao.InsertCode(sms_cocde)
 	return result > 0
+}
+
+// 手机验证码登录
+func (m MememberService) SmsCodeLogin(p param.SmsLoginParam) *model.Member {
+	phone := p.Phone
+	code := p.Code
+
+	member_dao := dao.MemberDao{tool.DbEngine}
+
+	// 校验手机和验证
+	sms := member_dao.ValidateSmsCode(phone, code)
+	if sms.Id == 0 {
+		return nil
+	}
+
+	// 用户是否存在
+	member := member_dao.QueryByPhone(sms.Phone)
+	if member.Id != 0 {
+		return member
+	}
+
+	// 不存在则创建用户
+	user := model.Member{}
+	user.UserName = phone
+	user.Mobile = phone
+	user.RegisterTime = time.Now().Unix()
+
+	user.Id = member_dao.InsertMember(user)
+
+	return &user
 }
