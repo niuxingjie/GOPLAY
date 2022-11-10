@@ -23,6 +23,7 @@ func main() {
 
 	// 初始化服务引擎
 	app := gin.Default()
+	app.Use(tool.Cors())
 	registerRouter(app)
 	if err := app.Run(app_config.AppHost + ":" + app_config.AppPort); err != nil {
 		panic(err)
@@ -37,4 +38,7 @@ func registerRouter(engine *gin.Engine) {
 
 	// Member
 	new(controller.MemberController).Router(engine.Group("/member"))
+
+	// captcha
+	new(controller.CaptchaController).Router(engine.Group("/captcha"))
 }

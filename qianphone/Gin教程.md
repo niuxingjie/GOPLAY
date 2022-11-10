@@ -297,7 +297,7 @@ result := member_dao.InsertCode(sms_cocde)
 
 ```
 
-### p13
+### p13 
 
 1. 几种返回值的使用与接受处理
 ```go
@@ -313,7 +313,7 @@ bool
 
 2. 类型问题
 ```go
-member := member_dao.QueryByPhhone(sms.Phone)  // member 这里定义了 type为 *model.Member 后面再赋值时需要类型一致
+member := member_dao.QueryByPhhone(sms.Phone)  // member 这里由于QueryByPhhone返回值定义了其type为 *model.Member 后面再赋值时需要类型一致
 if member.Id != 0 {
 	return member
 }
@@ -349,5 +349,22 @@ if err != nil {
 // smsLoginParam: CloudRestaurant/param.SmsLoginParam {Phone: "1234564564", Code: "510660"}
 特别需要注意的点是：是否需要改变结构体属性并且保存下来，决定了是否必须使用指针
 ```
+
+### p14 跨域
+
+1. 相同域定义及跨域嗅探
+```
+协议、主机、端口三者都一致，定义为同域：
+- http://www.baidu.com:80
+- https://www.baidu.com:433
+- wx://www.baidu.com:8090
+
+TODO: github.com/gin-contrib/cors 源码
+```
+
+### p15 验证码
+
+
+
 
 
