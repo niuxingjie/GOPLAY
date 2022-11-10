@@ -5,7 +5,7 @@ import (
 )
 
 //configJsonBody json request body.
-type ConfigJsonBody struct {
+type CaptchaConfigJsonBody struct {
 	Id            string
 	CaptchaType   string
 	VerifyValue   string
@@ -14,4 +14,9 @@ type ConfigJsonBody struct {
 	DriverChinese *base64Captcha.DriverChinese
 	DriverMath    *base64Captcha.DriverMath
 	DriverDigit   *base64Captcha.DriverDigit
+}
+
+type CaptchaCode struct {
+	Id          string `json:"id"`
+	VerifyValue string `json:"value"`
 }

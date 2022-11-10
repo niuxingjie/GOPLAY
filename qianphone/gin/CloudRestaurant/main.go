@@ -20,6 +20,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	// 初始化redis
+	tool.InitRedisClient(app_config)
 
 	// 初始化服务引擎
 	app := gin.Default()

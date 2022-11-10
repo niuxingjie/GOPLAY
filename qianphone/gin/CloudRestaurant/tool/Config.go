@@ -9,16 +9,17 @@ import (
 
 // 定义配置文件结构及参数
 type Config struct {
-	AppName    string          `json:"app_name"`
-	AppMode    string          `json:"app_mode"`
-	AppHost    string          `json:"app_host"`
-	AppPort    string          `json:"app_port"`
-	SMSCionfig `json:"sms"`    //结构体的匿名字段实现继承
-	Database   DatabaseCionfig `json:"database"` // 非匿名字段，注意使用时获取方式
+	AppName     string         `json:"app_name"`
+	AppMode     string         `json:"app_mode"`
+	AppHost     string         `json:"app_host"`
+	AppPort     string         `json:"app_port"`
+	SMSConfig   `json:"sms"`   //结构体的匿名字段实现继承
+	Database    DatabaseConfig `json:"database"` // 非匿名字段，注意使用时获取方式
+	RedisConfig RedisConfig    `json:"redis"`
 }
 
 // 定义sms参数
-type SMSCionfig struct {
+type SMSConfig struct {
 	SignName     string `json:"sign_name"`
 	TemplateCode string `json:"template_code"`
 	AppKey       string `json:"app_key"`
@@ -27,7 +28,7 @@ type SMSCionfig struct {
 }
 
 // 数据库配置
-type DatabaseCionfig struct {
+type DatabaseConfig struct {
 	Driver   string `json:"driver"`
 	Host     string `json:"host"`
 	Port     string `json:"port"`
@@ -36,6 +37,14 @@ type DatabaseCionfig struct {
 	DbName   string `json:"db_name"`
 	Charset  string `json:"charset"`
 	ShowSQL  bool   `json:"show_sql"`
+}
+
+// redis config
+type RedisConfig struct {
+	Addr     string `json:"host"`
+	Port     string `json:"port"`
+	Password string `json:"password"`
+	Db       int    `json:"db"`
 }
 
 // 包内私有变量

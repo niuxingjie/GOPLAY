@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"CloudRestaurant/tool"
 	"encoding/json"
 	"log"
 
@@ -21,14 +22,14 @@ func (c CaptchaController) Router(router *gin.RouterGroup) {
 	router.POST("/verifyCaptcha", c.captchaVerifyHandle)
 }
 
-var store = base64Captcha.DefaultMemStore
-
 // base64Captcha create http handler
 
 func (cp CaptchaController) generateCaptchaHandler(context *gin.Context) {
+	var store tool.RedisStore = tool.RedisStore{Client: tool.Redis}
+
 	//parse request parameters
 	decoder := json.NewDecoder(context.Request.Body)
-	var param param_module.ConfigJsonBody
+	var param param_module.CaptchaConfigJsonBody
 	err := decoder.Decode(&param)
 	if err != nil {
 		log.Println(err)
@@ -48,7 +49,7 @@ func (cp CaptchaController) generateCaptchaHandler(context *gin.Context) {
 	default:
 		driver = param.DriverDigit
 	}
-	c := base64Captcha.NewCaptcha(driver, store)
+	c := base64Captcha.NewCaptcha(driver, &store)
 	id, b64s, err := c.Generate()
 	body := map[string]interface{}{"code": 1, "data": b64s, "captchaId": id, "msg": "success"}
 	if err != nil {
@@ -60,9 +61,11 @@ func (cp CaptchaController) generateCaptchaHandler(context *gin.Context) {
 // base64Captcha verify http handler
 func (cp CaptchaController) captchaVerifyHandle(context *gin.Context) {
 
+	var store tool.RedisStore = tool.RedisStore{Client: tool.Redis}
+
 	//parse request parameters
 	decoder := json.NewDecoder(context.Request.Body)
-	var param param_module.ConfigJsonBody
+	var param param_module.CaptchaCode
 	err := decoder.Decode(&param)
 	if err != nil {
 		log.Println(err)

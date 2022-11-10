@@ -362,8 +362,6 @@ if err != nil {
 TODO: github.com/gin-contrib/cors 源码
 ```
 
-### p15 验证码
-
 
 
 
