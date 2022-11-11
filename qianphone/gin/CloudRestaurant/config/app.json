@@ -1,0 +1,29 @@
+{
+    "app_name": "cloud_restaurant",
+    "app_mode": "debug",
+    "app_host": "127.0.0.1",
+    "app_port": "8000",
+    "sms": {
+        "sign_name": "线上餐厅",
+        "tempate_code": "SMS_45797666",
+        "app_key": "dfsdfsokf89345",
+        "app_secret": "skf93484sdl3o44jd875",
+        "region_id": "cn-hangzhou"
+    },
+    "database": {
+        "driver": "mysql",
+        "host": "172.17.0.1",
+        "port": "13306",
+        "username": "root",
+        "password": "password123456",
+        "db_name": "cloudrestaurant",
+        "charset": "utf8",
+        "show_sql": true
+    },
+    "redis": {
+        "host": "172.17.0.1",
+        "port": "16379",
+        "password": "",
+        "db": 1
+    }
+}
