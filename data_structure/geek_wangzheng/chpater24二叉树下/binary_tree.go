@@ -20,6 +20,11 @@ func main() {
 	binary_tree.Add(Node{Value: l4})
 	binary_tree.Add(Node{Value: l1})
 	Print(binary_tree.TopNode)
+	Transfer(binary_tree.TopNode)
+	fmt.Println('-' * 50)
+	// fmt.Println("-" * 50)
+	fmt.Println("------------------")
+	Print(binary_tree.TopNode)
 }
 
 type Person struct {
@@ -91,5 +96,16 @@ func Print(current_node *Node) {
 	}
 	if current_node.Right != nil {
 		Print(current_node.Right)
+	}
+}
+
+// 反转二叉树
+func Transfer(current_node *Node) {
+	current_node.Left, current_node.Right = current_node.Right, current_node.Left
+	if current_node.Left != nil {
+		Transfer(current_node.Left)
+	}
+	if current_node.Right != nil {
+		Transfer(current_node.Right)
 	}
 }
