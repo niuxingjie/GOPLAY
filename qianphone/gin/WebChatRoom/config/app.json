@@ -1,0 +1,12 @@
+{
+    "app_name": "WebChatRoom",
+    "app_mode": "debug",
+    "app_host": "0.0.0.0",
+    "app_port": "8000",
+    "redis": {
+        "host": "172.17.0.1",
+        "port": "16379",
+        "password": "",
+        "db": 0
+    }
+}

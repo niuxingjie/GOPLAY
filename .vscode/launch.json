@@ -9,7 +9,7 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "/workspaces/GoPlay/qianphone/gin/CloudRestaurant/main.go"
+            "program": "/workspaces/GoPlay/qianphone/gin/WebChatRoom/main.go"
         }
     ]
 }

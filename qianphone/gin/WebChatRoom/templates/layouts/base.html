@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>简易聊天室</title>
+    <link rel="stylesheet" href="/static/css/spectre.min.css">
+    <link rel="stylesheet" href="/static/css/spectre-icons.css">
+    <script src="/static/js/jquery-3.3.1.min.js"></script>
+    <script src="/static/js/js.cookie.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="columns">
+        <div class="column col-8 col-mx-auto">
+            <header class="navbar">
+                <section class="centered">
+                    <div class="navbar-brand mr-2"><h2>简易聊天室</h2></div>
+                </section>
+            </header>
+        </div>
+    </div>
+    {{ template  "content" . }}
+</div>
+</body>
+</html>
